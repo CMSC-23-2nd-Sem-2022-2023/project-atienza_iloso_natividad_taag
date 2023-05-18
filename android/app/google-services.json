@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "241482224830",
+    "project_id": "cmsc23-b5l-project",
+    "storage_bucket": "cmsc23-b5l-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:241482224830:android:f67a83fc75dbb31eae3aef",
+        "android_client_info": {
+          "package_name": "com.example.cmsc23_b5l_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "241482224830-c6s2aa9s67p1dlssu1dfiosin117a7l3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBj2ahqbxiudTXzXliUtV9pmIpprAql3ks"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "241482224830-c6s2aa9s67p1dlssu1dfiosin117a7l3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
