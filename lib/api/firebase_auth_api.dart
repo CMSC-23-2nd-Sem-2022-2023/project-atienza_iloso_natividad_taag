@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseAuthAPI {
   static final FirebaseAuth auth = FirebaseAuth.instance;
+  static final FirebaseFirestore db = FirebaseFirestore.instance;
 
   Stream<User?> getUser() {
     return auth.authStateChanges();
@@ -48,6 +50,30 @@ class FirebaseAuthAPI {
       }
     } catch (e) {
       print(e);
+    }
+  }
+
+  Future<String> addUser(
+    String name,
+    String username,
+    String college,
+    String course,
+    String studentnum,
+    List<String> illnesses,
+    String allergies) async {
+    try {
+      await db.collection("users").add(
+        {'name': name,
+        'username': username,
+        'college': college,
+        'course': course,
+        'studentnum': studentnum,
+        'illnesses': illnesses,
+        'allergies': allergies });
+      
+      return "Successfully added user!";
+    } on FirebaseException catch (e) {
+      return "Failed with error '${e.code}: ${e.message}";
     }
   }
 

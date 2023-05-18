@@ -25,6 +25,27 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> addUser(
+    String name,
+    String username,
+    String college,
+    String course,
+    String studentnum,
+    List<String> illnesses,
+    String allergies) async {
+
+    await authService.addUser(
+      name,
+      username,
+      college,
+      course,
+      studentnum,
+      illnesses,
+      allergies);
+       //use the function in firebase_auth_api
+    notifyListeners();
+  }
+
   Future<void> signIn(String email, String password) async {
     await authService.signIn(email, password);
     notifyListeners();
