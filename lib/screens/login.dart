@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import '../screens/signup.dart';
+import '../screens/signup_admin_emonitor.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -57,7 +58,23 @@ class _LoginPageState extends State<LoginPage> {
             ),
           );
         },
-        child: const Text('Sign Up', style: TextStyle(color: Colors.white)),
+        child: const Text('Sign Up as User', style: TextStyle(color: Colors.white)),
+      ),
+    );
+
+    final signUpAdminButton = Padding(
+      key: const Key('signUpButton'),
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      child: ElevatedButton(
+        onPressed: () async {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const SignupAdminEmonitorPage(),
+            ),
+          );
+        },
+        child: const Text('Sign Up as Admin/Entrance Monitor',
+            style: TextStyle(color: Colors.white)),
       ),
     );
 
@@ -77,6 +94,7 @@ class _LoginPageState extends State<LoginPage> {
             password,
             loginButton,
             signUpButton,
+            signUpAdminButton
           ],
         ),
       ),

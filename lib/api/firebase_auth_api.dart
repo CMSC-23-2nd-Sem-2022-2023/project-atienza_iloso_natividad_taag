@@ -77,6 +77,23 @@ class FirebaseAuthAPI {
     }
   }
 
+  Future<String> addAdminEmonitor(String email, String name, String employeeno,
+      String position, String homeunit) async {
+    try {
+      await db.collection("admin_emonitors").add({
+        'email': email,
+        'name': name,
+        'employeeno': employeeno,
+        'position': position,
+        'homeunit': homeunit,
+      });
+
+      return "Successfully added admin/emonitor!";
+    } on FirebaseException catch (e) {
+      return "Failed with error '${e.code}: ${e.message}";
+    }
+  }
+
   Future<void> signOut() async {
     auth.signOut();
   }
