@@ -209,6 +209,23 @@ class _AddEntryPageState extends State<AddEntryPage> {
                             });
                           },
                         ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Text(
+                          "Exposure",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 25),
+                        ),
+                        SwitchListTile(
+                            title: const Text(
+                                'Did you have a face-to-face encounter or contact with a confirmed COVID-19 case?'),
+                            value: addEntryMap["isExposed"],
+                            onChanged: (bool value) {
+                              setState(() {
+                                addEntryMap["isExposed"] = value;
+                              });
+                            }),
                       ],
                     ),
                   ),
