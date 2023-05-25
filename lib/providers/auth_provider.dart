@@ -26,23 +26,24 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> addUser(
-    String name,
-    String username,
-    String college,
-    String course,
-    String studentnum,
-    List<String> illnesses,
-    String allergies) async {
-
+      String name,
+      String username,
+      String college,
+      String course,
+      String studentnum,
+      List<String> illnesses,
+      String allergies) async {
     await authService.addUser(
-      name,
-      username,
-      college,
-      course,
-      studentnum,
-      illnesses,
-      allergies);
-       //use the function in firebase_auth_api
+        name, username, college, course, studentnum, illnesses, allergies);
+    //use the function in firebase_auth_api
+    notifyListeners();
+  }
+
+  Future<void> addAdminEmonitor(String email, String name, String employeeno,
+      String position, String homeunit) async {
+    await authService.addAdminEmonitor(
+        email, name, employeeno, position, homeunit);
+    //use the function in firebase_auth_api
     notifyListeners();
   }
 
