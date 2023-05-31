@@ -8,10 +8,10 @@ class User {
   String college;
   String course;
   String studentnum;
-  List<String> illnesses;
-  String allergies;
-  bool toEdit;
-  bool toDelete;
+  List<dynamic>? illnesses;
+  String? allergies;
+  bool? toEdit;
+  bool? toDelete;
   String date;
 
   User({
@@ -22,10 +22,10 @@ class User {
     required this.college,
     required this.course,
     required this.studentnum,
-    required this.illnesses,
-    required this.allergies,
-    required this.toEdit,
-    required this.toDelete,
+    this.illnesses,
+    this.allergies,
+    this.toEdit,
+    this.toDelete,
     required this.date
   });
 

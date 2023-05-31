@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
     const ProfilePage(),
   
     //admin view
-    const AdminPage(),
+    AdminPage(),
   ];
 
   @override

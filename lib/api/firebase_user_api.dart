@@ -17,6 +17,14 @@ class FirebaseUserAPI {
     }
   }
 
+  Future<String> printSmth() async {
+    try {
+      return "printtt";
+    } on FirebaseException catch (e) {
+      return "Failed with error '${e.code}: ${e.message}";
+    }
+  }
+
   Future<String> updateEditRequest(
       String? id, bool toEdit) async {
     try {
