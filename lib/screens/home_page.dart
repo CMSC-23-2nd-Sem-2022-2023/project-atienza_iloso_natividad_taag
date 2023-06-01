@@ -17,14 +17,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   //this selected index is to control the bottom nav bar
   int _selectedIndex = 0;
 
   //this method will update our selected index
   //when the user taps on the bottm bar
-  void navigateBottomBar(int index){
-    setState((){
+  void navigateBottomBar(int index) {
+    setState(() {
       _selectedIndex = index;
     });
   }
@@ -63,35 +62,33 @@ class _HomePageState extends State<HomePage> {
 
   Scaffold displayScaffold(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-          child: ListView(padding: EdgeInsets.zero, children: [
-        ListTile(
-          title: const Text('Details'),
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const UserDetailsPage()));
-          },
+        drawer: Drawer(
+            child: ListView(padding: EdgeInsets.zero, children: [
+          ListTile(
+            title: const Text('Details'),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const UserDetailsPage()));
+            },
+          ),
+          ListTile(
+            title: const Text('Logout'),
+            onTap: () {
+              context.read<AuthProvider>().signOut();
+              Navigator.pop(context);
+            },
+          ),
+        ])),
+        appBar: AppBar(
+          title: const Text("Home"),
         ),
-        ListTile(
-          title: const Text('Logout'),
-          onTap: () {
-            context.read<AuthProvider>().signOut();
-            Navigator.pop(context);
-          },
-        ),
-      ])),
-      appBar: AppBar(
-        title: const Text("Home"),
-      ),
-            bottomNavigationBar: MyBottomNavBar(
-        // onTabChange: (index) => navigateBottomBar(index),
-        onTabChange: (index){
+        body: _pages[_selectedIndex],
+        bottomNavigationBar: MyBottomNavBar(
+            // onTabChange: (index) => navigateBottomBar(index),
+            onTabChange: (index) {
           navigateBottomBar(index);
-        }
-      ),
-      body: _pages[_selectedIndex],
-    );
+        }));
   }
 }
