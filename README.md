@@ -2,6 +2,9 @@
 
 A new Flutter project.
 
+# To-Do List:
+[Google Sheets](https://docs.google.com/spreadsheets/d/1I11xWm9xPXwuOOzZs6WqnkFIC-Ly3qMpCTj_akDOzb4/edit#gid=1386834576)
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
