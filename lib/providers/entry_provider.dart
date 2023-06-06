@@ -48,6 +48,15 @@ class EntryProvider with ChangeNotifier {
     _entryCount = count;
   }
 
+  Future<Entry?> get entryLatest async {
+    final snapshot = await firebaseService.getAllEntries().first;
+    final entries = snapshot.docs;
+    final latestEntry = entries.isNotEmpty
+        ? Entry.fromJson(entries.first.data() as Map<String, dynamic>)
+        : null;
+    return latestEntry;
+  }
+
   bool hasEntryToday() {
     var out = false;
 
