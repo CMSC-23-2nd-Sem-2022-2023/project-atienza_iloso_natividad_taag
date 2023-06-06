@@ -42,8 +42,8 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateDeleteRequest(String id, bool toDelete) async {
-    String message = await firebaseService.updateDeleteRequest(id, toDelete);
+  void updateUserType(String id, String email, String name, String usertype) async {
+    String message = await firebaseService.updateUserType(id, email, name, usertype);
     print(message);
     notifyListeners();
   }

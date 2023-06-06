@@ -117,23 +117,18 @@ class UserDetailScreen extends StatelessWidget {
               child: Text("${user.category}", style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic),),
             ),
           ],),
-          
-          ElevatedButton(
-            onPressed: () {Navigator.pop(context);},
-            child: const Text('Back',
-            style: TextStyle(
-              fontSize: 16)),
-          ),
 
-          Padding(padding: EdgeInsets.only(top: 20)),
           
+
           user.category == 'Quarantined' ?
           Container() : 
           Column(children: [
+            Padding(padding: EdgeInsets.only(top: 20)),
             Text('Number of students quarantined: ${snapshot.data?.docs.length}'),
             ElevatedButton(
             onPressed: () {
               context.read<UserProvider>().updateCategory(user.id!, "Quarantined");
+              Navigator.pop(context);
             },
             child: Text('Add student to quarantine',
             style: TextStyle(
@@ -142,12 +137,39 @@ class UserDetailScreen extends StatelessWidget {
           ],),
 
           Padding(padding: EdgeInsets.only(top: 20)),
-          // ElevatedButton(
-          //   onPressed: () {Navigator.pop(context);},
-          //   child: const Text('Back',
-          //   style: TextStyle(
-          //     fontSize: 16)),
-          // ),
+          Center(child: Text('Elevate user to:'),),
+          Padding(padding: EdgeInsets.only(top: 10)),
+          Center(child: Column(children: [
+            ElevatedButton(
+            onPressed: () {
+              context.read<UserProvider>().updateUserType(user.id!, user.email, user.name, "admin");
+              Navigator.pop(context);
+            },
+            child: const Text('Elevate to admin',
+            style: TextStyle(
+              fontSize: 16)),
+          ),
+
+          Padding(padding: EdgeInsets.only(top: 5)),
+          ElevatedButton(
+            onPressed: () {
+              context.read<UserProvider>().updateUserType(user.id!, user.email, user.name, "monitor");
+              Navigator.pop(context);
+            },
+            child: const Text('Elevate to entrance monitor',
+            style: TextStyle(
+              fontSize: 16)),
+          ),
+          ],)
+          ),
+
+          Padding(padding: EdgeInsets.only(top: 20)),
+          ElevatedButton(
+            onPressed: () {Navigator.pop(context);},
+            child: const Text('Back',
+            style: TextStyle(
+              fontSize: 16)),
+          ),
           ],
         ),
       ),

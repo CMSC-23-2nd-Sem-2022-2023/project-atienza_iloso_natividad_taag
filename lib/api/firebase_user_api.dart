@@ -38,17 +38,21 @@ class FirebaseUserAPI {
     try {
       await db.collection("users").doc(id).update({"category": category});
 
-      return "Successfully updated student request!";
+      return "Successfully updated category!";
     } on FirebaseException catch (e) {
       return "Failed with error '${e.code}: ${e.message}";
     }
   }
 
-  Future<String> updateDeleteRequest(String? id, bool toDelete) async {
+  Future<String> updateUserType(String? id, String email, String name, String usertype) async {
     try {
-      await db.collection("users").doc(id).update({"toDelete": toDelete});
+      // add user to admin/monitor collection
+      // add only email, name
+      await db.collection("admin_emonitors").add({'email': email, 'name': name, 'usertype': usertype});
 
-      return "Successfully updated student request!";
+      // delete user from users collection
+      await db.collection("users").doc(id).delete();
+      return "Successfully updated user type!";
     } on FirebaseException catch (e) {
       return "Failed with error '${e.code}: ${e.message}";
     }
