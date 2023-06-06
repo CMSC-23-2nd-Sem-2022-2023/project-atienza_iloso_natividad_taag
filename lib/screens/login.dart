@@ -11,24 +11,47 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  String? validateEmail(String? email) {
+    if (email == null || email.isEmpty) {
+      return 'Email is required';
+    } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
+      return 'Invalid email format';
+    }
+    return null;
+  }
+
+  String? validatePw(String? pw) {
+    if (pw == null || pw.isEmpty) {
+      return 'Password is required';
+    } else if (!RegExp(r'^.{6,}$').hasMatch(pw)) {
+      return 'Password must be at least 6 characters';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
-
-    final email = TextField(
+    final email = TextFormField(
       key: const Key('emailField'),
+      validator: validateEmail,
       controller: emailController,
       decoration: const InputDecoration(
+        border: OutlineInputBorder(),
         hintText: "Email",
       ),
     );
 
-    final password = TextField(
+    final password = TextFormField(
       key: const Key('pwField'),
+      validator: validatePw,
       controller: passwordController,
       obscureText: true,
       decoration: const InputDecoration(
+        border: OutlineInputBorder(),
         hintText: 'Password',
       ),
     );
@@ -38,6 +61,7 @@ class _LoginPageState extends State<LoginPage> {
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: ElevatedButton(
         onPressed: () async {
+          if (!_formKey.currentState!.validate()) return;
           await context.read<AuthProvider>().signIn(
                 emailController.text.trim(),
                 passwordController.text.trim(),
@@ -58,7 +82,8 @@ class _LoginPageState extends State<LoginPage> {
             ),
           );
         },
-        child: const Text('Sign Up as User', style: TextStyle(color: Colors.white)),
+        child: const Text('Sign Up as User',
+            style: TextStyle(color: Colors.white)),
       ),
     );
 
@@ -88,10 +113,16 @@ class _LoginPageState extends State<LoginPage> {
             const Text(
               "Login",
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 25),
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
-            email,
-            password,
+            Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    Padding(padding: const EdgeInsets.fromLTRB(0,48,0,8), child: email),
+                    Padding(padding: const EdgeInsets.fromLTRB(0,8,0,8), child: password),
+                  ],
+                )),
             loginButton,
             signUpButton,
             signUpAdminButton
