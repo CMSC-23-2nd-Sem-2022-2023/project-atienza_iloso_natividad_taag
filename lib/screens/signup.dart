@@ -1,4 +1,4 @@
-import 'package:cmsc23_b5l_project/screens/modules/signup_form/signup_stepper.dart';
+import 'package:cmsc23_b5l_project/widgets/signup_form/signup_stepper.dart';
 import 'package:flutter/material.dart';
 
 
@@ -21,7 +21,7 @@ class _SignupPageState extends State<SignupPage> {
             Text(
               "Sign Up",
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 25),
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
             SignUpStepper(),
           ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../providers/auth_provider.dart';
+import '../../providers/auth_provider.dart';
 
 class SignUpAdminStepper extends StatefulWidget {
   const SignUpAdminStepper({Key? key}) : super(key: key);
@@ -159,34 +159,6 @@ class _SignUpAdminStepperState extends State<SignUpAdminStepper> {
       decoration: const InputDecoration(
         border: OutlineInputBorder(),
         hintText: 'Position',
-      ),
-    );
-
-    final signupButton = Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: ElevatedButton(
-        onPressed: () async {
-          illnessMap.forEach((k, v) {
-            v ? illnesses.add(k) : 0;
-          });
-
-          if (_formKey1.currentState!.validate()) {
-            await context
-                .read<AuthProvider>()
-                .signUp(emailController.text, passwordController.text);
-
-            await context.read<AuthProvider>().addAdminEmonitor(
-                //add user when signing up
-                emailController.text,
-                nameController.text,
-                employeenoController.text,
-                positionController.text,
-                homeunitController.text);
-
-            if (context.mounted) Navigator.pop(context);
-          }
-        },
-        child: const Text('Sign up', style: TextStyle(color: Colors.white)),
       ),
     );
 

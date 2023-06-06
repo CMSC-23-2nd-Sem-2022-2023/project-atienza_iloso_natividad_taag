@@ -22,7 +22,7 @@ class _SignupPageState extends State<SignupAdminEmonitorPage> {
             Text(
               "Sign Up",
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 25),
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
             SignUpAdminStepper(),
           ],
