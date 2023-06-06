@@ -4,16 +4,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserProvider with ChangeNotifier {
   late FirebaseUserAPI firebaseService;
-  late Stream<QuerySnapshot> _entriesStream;
+  late Stream<QuerySnapshot> _usersStream;
 
   UserProvider() {
     firebaseService = FirebaseUserAPI();
     fetchUsers();
   }
-  Stream<QuerySnapshot> get entries => _entriesStream;
+  Stream<QuerySnapshot> get users => _usersStream;
 
   fetchUsers() {
-    _entriesStream = firebaseService.getAllStudents();
+    _usersStream = firebaseService.getAllStudents();
     notifyListeners();
   }
 

@@ -4,18 +4,21 @@ import '../api/firebase_auth_api.dart';
 
 class AuthProvider with ChangeNotifier {
   late FirebaseAuthAPI authService;
-  late Stream<User?> uStream;
-  User? userObj;
+  late Stream<User?> _uStream;
+  // User? userObj;
+
+  String? _cUser;
 
   AuthProvider() {
     authService = FirebaseAuthAPI();
     fetchAuthentication();
   }
 
-  Stream<User?> get userStream => uStream;
+  Stream<User?> get userStream => _uStream;
+  String get getCurrentUser => _cUser!;
 
   void fetchAuthentication() {
-    uStream = authService.getUser();
+    _uStream = authService.getUser();
 
     notifyListeners();
   }
@@ -52,6 +55,12 @@ class AuthProvider with ChangeNotifier {
     await authService.signIn(email, password);
     notifyListeners();
   }
+
+  void setCurrentUser(String uid) {
+    _cUser = uid;
+    // notifyListeners();
+  }
+
 
   Future<void> signOut() async {
     await authService.signOut();

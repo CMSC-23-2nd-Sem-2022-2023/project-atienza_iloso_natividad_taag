@@ -2,36 +2,40 @@ import 'dart:convert';
 
 class User {
   String? id;
+  String userType;
   String email;
   String name;
   String username;
-  String college;
-  String course;
-  String studentnum;
+  String? college;
+  String? course;
+  String? studentnum;
   List<dynamic>? illnesses;
   String? allergies;
   bool? toEdit;
   bool? toDelete;
   String date;
 
+
   User({
     this.id,
     required this.email,
+    required this.userType,
     required this.name,
     required this.username,
-    required this.college,
-    required this.course,
-    required this.studentnum,
+    this.college,
+    this.course,
+    this.studentnum,
     this.illnesses,
     this.allergies,
     this.toEdit,
     this.toDelete,
-    required this.date
+    required this.date,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
         id: json['id'],
+        userType: json['userType'],
         email: json['email'],
         name: json['name'],
         username: json['username'],
@@ -54,6 +58,7 @@ class User {
   Map<String, dynamic> toJson(User user) {
     return {
       'id': user.id,
+      'userType': user.userType,
       'email': user.email,
       'name': user.name,
       'username': user.username,
@@ -71,6 +76,7 @@ class User {
   static List<User> userList() {
     return [
       User(
+        userType: 'admin',
         email: "annatividad@up.edu.ph",
         name: "Aira Nicole",
         username: "airanatividad",

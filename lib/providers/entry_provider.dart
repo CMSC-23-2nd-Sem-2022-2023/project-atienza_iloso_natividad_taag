@@ -8,12 +8,15 @@ class EntryProvider with ChangeNotifier {
   late FirebaseEntryAPI firebaseService;
   late Stream<QuerySnapshot> _entriesStream;
 
+  int? _entryCount;
+
   EntryProvider() {
     firebaseService = FirebaseEntryAPI();
     fetchEntries();
   }
   
   Stream<QuerySnapshot> get entries => _entriesStream;
+  int? get entryCount => _entryCount;
 
   fetchEntries() {
     _entriesStream = firebaseService.getAllEntries();
@@ -22,6 +25,7 @@ class EntryProvider with ChangeNotifier {
   
   void addEntry(Entry entry) async{
     String message = await firebaseService.addEntry(entry.toJson(entry));
+    _entryCount = _entryCount! + 1;
     // ignore: avoid_print
     print(message);
     notifyListeners();
@@ -38,5 +42,17 @@ class EntryProvider with ChangeNotifier {
     String message = await firebaseService.updateDeleteRequest(id, toDelete);
     print(message);
     notifyListeners();
+  }
+
+  void setEntryCount(int count) {
+    _entryCount = count;
+  }
+
+  bool hasEntryToday() {
+    var out = false;
+
+    
+
+    return out;
   }
 }

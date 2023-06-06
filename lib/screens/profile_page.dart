@@ -12,8 +12,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-    final entryList = Entry.entryList();
-
   @override
   Widget build(BuildContext context) {
     return       Stack(

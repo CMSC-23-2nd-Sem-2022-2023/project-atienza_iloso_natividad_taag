@@ -1,13 +1,16 @@
 //  Last Updated: May 25, 2023
-//  Last Updated By: Taag
+//  Last Updated By: Atienza
 //  Add Entry Page
 //    When add entry button is clicked, User is routed here to answer a form.
-//  Missing functionality:
-//    Updating firebase when the add entry button is clicked.
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cmsc23_b5l_project/providers/entry_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cmsc23_b5l_project/models/entry.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/auth_provider.dart';
 
 class AddEntryPage extends StatefulWidget {
   final Entry? entry;
@@ -36,6 +39,9 @@ class _AddEntryPageState extends State<AddEntryPage> {
 
   @override
   Widget build(BuildContext context) {
+    String uid = context.watch<AuthProvider>().getCurrentUser;
+    int id = context.watch<EntryProvider>().entryCount! + 1;
+
     final addEntryButton = SizedBox(
       width: 300.0,
       height: 40.0,
@@ -43,12 +49,16 @@ class _AddEntryPageState extends State<AddEntryPage> {
       child: ElevatedButton(
         onPressed: () async {
           // update firebase
-          // TODO : ADD CURRENT USER GETTER
           var now = DateTime.now();
           var formatter = DateFormat('MM/dd/yyyy');
           String formattedDate = formatter.format(now);
-          print(formattedDate);
-          Entry temp = Entry(date: formattedDate, illnesses: addEntryMap, username: 'user');
+
+          var tempMap = addEntryMap;
+          tempMap.remove("None of the above");
+          Entry temp = Entry(id: id.toString(), date: formattedDate, illnesses: tempMap, uid: uid);
+
+          context.read<EntryProvider>().addEntry(temp);
+          Navigator.of(context).pop();
         },
         child: const Text('Add Entry', style: TextStyle(color: Colors.white)),
       ),

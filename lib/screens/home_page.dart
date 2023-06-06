@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
     // Debugging
     _hasEntryToday = true;
 
-    Stream<User?> userStream = context.watch<AuthProvider>().uStream;
+    Stream<User?> userStream = context.watch<AuthProvider>().userStream;
 
     return StreamBuilder(
         stream: userStream,
@@ -65,6 +65,9 @@ class _HomePageState extends State<HomePage> {
           } else if (!snapshot.hasData) {
             return const LoginPage();
           }
+
+          String uid = snapshot.data!.uid;
+          context.watch<AuthProvider>().setCurrentUser(uid);
           // if user is logged in, display the scaffold containing the streambuilder for the todos
           return displayScaffold(context);
         });

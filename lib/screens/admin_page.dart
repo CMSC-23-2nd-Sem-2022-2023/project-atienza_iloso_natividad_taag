@@ -20,7 +20,7 @@ class _AdminPageState extends State<AdminPage> {
 
   @override
   Widget build(BuildContext context) {
-    Stream<QuerySnapshot> entriesStream = context.watch<UserProvider>().entries;
+    Stream<QuerySnapshot> entriesStream = context.watch<UserProvider>().users;
 
     return StreamBuilder(
       stream: entriesStream,

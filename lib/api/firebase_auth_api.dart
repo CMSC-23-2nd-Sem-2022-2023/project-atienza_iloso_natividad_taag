@@ -10,9 +10,8 @@ class FirebaseAuthAPI {
   }
 
   Future<void> signIn(String email, String password) async {
-    UserCredential credential;
     try {
-      final credential = await auth.signInWithEmailAndPassword(
+      final UserCredential credential = await auth.signInWithEmailAndPassword(
           email: email, password: password);
 
       //let's print the object returned by signInWithEmailAndPassword
