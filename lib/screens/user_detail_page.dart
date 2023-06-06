@@ -118,8 +118,6 @@ class UserDetailScreen extends StatelessWidget {
             ),
           ],),
 
-          
-
           user.category == 'Quarantined' ?
           Container() : 
           Column(children: [

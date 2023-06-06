@@ -6,23 +6,25 @@ class User {
   String email;
   String name;
   String username;
-  String? college;
-  String? course;
-  String? studentnum;
+  String college;
+  String course;
+  String studentnum;
   List<dynamic>? illnesses;
   String? allergies;
   String? category;
   String? usertype; 
   String? date;
 
+  int compareTo(User other) => name.compareTo(other.name);
+
   User({
     this.id,
     required this.email,
     required this.name,
     required this.username,
-    this.college,
-    this.course,
-    this.studentnum,
+    required this.college,
+    required this.course,
+    required this.studentnum,
     this.illnesses,
     this.allergies,
     this.category,
