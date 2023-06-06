@@ -54,6 +54,7 @@ class FirebaseAuthAPI {
   }
 
   Future<String> addUser(
+    String email,
     String name,
     String username,
     String college,
@@ -63,7 +64,9 @@ class FirebaseAuthAPI {
     String allergies) async {
     try {
       await db.collection("users").add(
-        {'name': name,
+        {
+        'email': email,
+        'name': name,
         'username': username,
         'college': college,
         'course': course,
