@@ -25,7 +25,7 @@ class _HistoryPageState extends State<HistoryPage> {
                 Expanded(
                   child: ListView(
                     children: [
-                      Container(
+                      Container( 
                         // color:Colors.blue,
                         margin: const EdgeInsets.only(top:10, bottom:20),
                         child: Text('Entries', style: TextStyle(fontSize:50, fontWeight: FontWeight.w500),)

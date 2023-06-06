@@ -1,32 +1,33 @@
 import 'dart:convert';
+import 'package:intl/intl.dart';
 
 class User {
   String? id;
   String email;
   String name;
   String username;
-  String college;
-  String course;
-  String studentnum;
+  String? college;
+  String? course;
+  String? studentnum;
   List<dynamic>? illnesses;
   String? allergies;
-  bool? toEdit;
-  bool? toDelete;
-  String date;
+  String? category;
+  String? usertype; 
+  String? date;
 
   User({
     this.id,
     required this.email,
     required this.name,
     required this.username,
-    required this.college,
-    required this.course,
-    required this.studentnum,
+    this.college,
+    this.course,
+    this.studentnum,
     this.illnesses,
     this.allergies,
-    this.toEdit,
-    this.toDelete,
-    required this.date
+    this.category,
+    this.usertype,
+    this.date
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -40,8 +41,8 @@ class User {
         studentnum: json['studentnum'],
         illnesses: json['illnesses'],
         allergies: json['allergies'],
-        toEdit: json['toEdit'],
-        toDelete: json['toDelete'],
+        category: json['category'],
+        usertype: json['usertype'],
         date: json['date']
         );
   }
@@ -62,13 +63,15 @@ class User {
       'studentnum': user.studentnum,
       'illnesses': user.illnesses,
       'allergies': user.allergies,
-      'toEdit': user.toEdit,
-      'toDelete': user.toDelete,
+      'category': user.category,
+      'usertype': user.usertype,
       'date': user.date
     };
   }
 
   static List<User> userList() {
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
     return [
       User(
         email: "annatividad@up.edu.ph",
@@ -79,9 +82,9 @@ class User {
         studentnum: "2021-12345",
         illnesses: [],
         allergies: "None",
-        toEdit: false,
-        toDelete: false,
-        date: ""),
+        category: "safe",
+        usertype: "default",
+        date: formattedDate),
     ];
   }
 }

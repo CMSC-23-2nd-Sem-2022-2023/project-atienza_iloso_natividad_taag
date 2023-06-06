@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
+import 'package:intl/intl.dart';
 
 class SignUpStepper extends StatefulWidget {
   const SignUpStepper({Key? key}) : super(key: key);
@@ -333,6 +334,9 @@ class _SignUpStepperState extends State<SignUpStepper> {
             v ? illnesses.add(k) : 0;
           });
 
+          DateTime now = DateTime.now();
+          String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
+
           await context
               .read<AuthProvider>()
               .signUp(emailController.text, passwordController.text);
@@ -346,7 +350,10 @@ class _SignUpStepperState extends State<SignUpStepper> {
               courseController.text,
               studentNumController.text,
               illnesses,
-              allergiesController.text);
+              allergiesController.text,
+              "safe",
+              "default",
+              formattedDate);
 
           if (context.mounted) Navigator.pop(context);
         } else {

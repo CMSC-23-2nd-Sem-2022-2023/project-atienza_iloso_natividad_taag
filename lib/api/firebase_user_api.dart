@@ -7,6 +7,14 @@ class FirebaseUserAPI {
     return db.collection("users").snapshots();
   }
 
+  Stream<QuerySnapshot> getQuarantined() {
+    return db.collection("users").where("category", isEqualTo: "Quarantined").snapshots();
+  }
+
+  Stream<QuerySnapshot> getUnderMonitoring() {
+    return db.collection("users").where("category", isEqualTo: "Under monitoring").snapshots();
+  }
+
   Future<String> deleteEntry(String? id) async {
     try {
       await db.collection("users").doc(id).delete();
