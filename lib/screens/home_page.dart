@@ -66,8 +66,8 @@ class _HomePageState extends State<HomePage> {
             return const LoginPage();
           }
 
-          String uid = snapshot.data!.uid;
-          context.watch<AuthProvider>().setCurrentUser(uid);
+          // String uid = snapshot.data!.uid;
+          context.watch<AuthProvider>().setCurrentUser(snapshot.data!);
           // if user is logged in, display the scaffold containing the streambuilder for the todos
           return displayScaffold(context);
         });
@@ -79,7 +79,7 @@ class _HomePageState extends State<HomePage> {
             child: ListView(padding: EdgeInsets.zero, children: [
           const DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Color.fromARGB(255, 209, 228, 255),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,12 +87,12 @@ class _HomePageState extends State<HomePage> {
                   Icon(
                     Icons.health_and_safety,
                     size: 60,
-                    color: Color.fromARGB(255, 239, 239, 239),
+                    color: Color.fromARGB(255, 0, 28, 53),
                   ),
                   Text(
                     'SiHealth Monitoring App',
                     style: TextStyle(
-                        color: Colors.white,
+                        color: Color.fromARGB(255, 0, 28, 53),
                         fontSize: 24,
                         fontWeight: FontWeight.bold),
                   ),

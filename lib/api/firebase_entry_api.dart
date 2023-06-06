@@ -4,7 +4,7 @@ class FirebaseEntryAPI {
   static final FirebaseFirestore db = FirebaseFirestore.instance;
 
   Stream<QuerySnapshot> getAllEntries() {
-    return db.collection("entries").snapshots();
+    return db.collection("entries").orderBy('date', descending: true).snapshots();
   }
 
   Future<String> addEntry(Map<String, dynamic> entry) async {
@@ -17,11 +17,11 @@ class FirebaseEntryAPI {
     }
   }
 
-  Future<String> deleteUser(String? id) async {
+  Future<String> deleteEntry(String? id) async {
     try {
       await db.collection("users").doc(id).delete();
 
-      return "Successfully deleted student!";
+      return "Successfully deleted entry!";
     } on FirebaseException catch (e) {
       return "Failed with error '${e.code}: ${e.message}";
     }
@@ -30,9 +30,9 @@ class FirebaseEntryAPI {
   Future<String> updateEditRequest(
       String? id, bool toEdit) async {
     try {
-      await db.collection("users").doc(id).update({"toEdit": toEdit});
+      await db.collection("entries").doc(id).update({"toEdit": toEdit});
 
-      return "Successfully updated student request!";
+      return "Successfully updated entry request!";
     } on FirebaseException catch (e) {
       return "Failed with error '${e.code}: ${e.message}";
     }
@@ -40,9 +40,9 @@ class FirebaseEntryAPI {
 
   Future<String> updateDeleteRequest(String? id, bool toDelete) async {
     try {
-      await db.collection("users").doc(id).update({"toDelete": toDelete});
+      await db.collection("entries").doc(id).update({"toDelete": toDelete});
 
-      return "Successfully updated student request!";
+      return "Successfully updated entry request!";
     } on FirebaseException catch (e) {
       return "Failed with error '${e.code}: ${e.message}";
     }

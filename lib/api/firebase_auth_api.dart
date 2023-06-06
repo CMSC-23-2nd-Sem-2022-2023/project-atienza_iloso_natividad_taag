@@ -28,7 +28,7 @@ class FirebaseAuthAPI {
     }
   }
 
-  Future<void> signUp(String email, String password) async {
+  Future<void> signUp(String name, String email, String password) async {
     UserCredential credential;
     try {
       credential = await auth.createUserWithEmailAndPassword(
@@ -38,6 +38,16 @@ class FirebaseAuthAPI {
 
       //let's print the object returned by signInWithEmailAndPassword
       //you can use this object to get the user's id, email, etc.\
+
+      User? user = credential.user;
+      if (user != null) {
+        // Set display name and email for the user
+        await user.updateDisplayName(name);
+        user = auth.currentUser;
+        // Print the updated user object
+        print(user);
+      }
+
       print(credential);
     } on FirebaseAuthException catch (e) {
       //possible to return something more useful
@@ -53,17 +63,16 @@ class FirebaseAuthAPI {
   }
 
   Future<String> addUser(
-    String email,
-    String name,
-    String username,
-    String college,
-    String course,
-    String studentnum,
-    List<String> illnesses,
-    String allergies) async {
+      String email,
+      String name,
+      String username,
+      String college,
+      String course,
+      String studentnum,
+      List<String> illnesses,
+      String allergies) async {
     try {
-      await db.collection("users").add(
-        {
+      await db.collection("users").add({
         'email': email,
         'name': name,
         'username': username,
@@ -71,8 +80,9 @@ class FirebaseAuthAPI {
         'course': course,
         'studentnum': studentnum,
         'illnesses': illnesses,
-        'allergies': allergies });
-      
+        'allergies': allergies
+      });
+
       return "Successfully added user!";
     } on FirebaseException catch (e) {
       return "Failed with error '${e.code}: ${e.message}";

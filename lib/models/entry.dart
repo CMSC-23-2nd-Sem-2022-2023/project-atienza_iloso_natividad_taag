@@ -1,10 +1,14 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Entry{
   String? id;
-  String date;
+  Timestamp date;
   String uid;
   Map<String, dynamic> illnesses;
+  bool? toEdit;
+  bool? toDelete;
 
   Entry(
     {
@@ -12,6 +16,8 @@ class Entry{
       required this.date,
       required this.uid,
       required this.illnesses,
+      this.toEdit = false,
+      this.toDelete = false,
     }
   );
 
@@ -21,6 +27,8 @@ class Entry{
         date: json['date'],
         uid: json['uid'],
         illnesses: json['illnesses'],
+        toEdit: json['toEdit'],
+        toDelete: json['toDelete'],
         );
   }
 
@@ -35,6 +43,8 @@ class Entry{
       'date': entry.date,
       'uid': entry.uid,
       'illnesses': entry.illnesses,
+      'toEdit': entry.toEdit,
+      'toDelete': entry.toDelete,
     };
   }
 }

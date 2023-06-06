@@ -38,7 +38,7 @@ class EntryProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateDeleteRequest(String id, bool toDelete) async {
+  void makeDeleteRequest(String id, bool toDelete) async {
     String message = await firebaseService.updateDeleteRequest(id, toDelete);
     print(message);
     notifyListeners();

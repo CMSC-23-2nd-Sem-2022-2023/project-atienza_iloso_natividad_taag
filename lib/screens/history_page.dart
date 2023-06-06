@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmsc23_b5l_project/models/entry.dart';
-import 'package:cmsc23_b5l_project/providers/user_provider.dart';
+import 'package:cmsc23_b5l_project/models/user_model.dart';
 import 'package:cmsc23_b5l_project/widgets/entry_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/auth_provider.dart';
 import '../providers/entry_provider.dart';
 
 class HistoryPage extends StatefulWidget {
@@ -20,11 +20,8 @@ class _HistoryPageState extends State<HistoryPage> {
   Widget build(BuildContext context) {
     // TODO : Confirm use of stack; found unnecessary at current layout.
     // TODO : Add conditional for user, admin, emonitor view
-    // Stream<QuerySnapshot> entryStream = context.watch<UserProvider>().entries;
 
-    return // Stack(
-        //children: [
-        Container(
+    return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       child: buildEntries(),
 
@@ -44,13 +41,6 @@ class _HistoryPageState extends State<HistoryPage> {
     Stream<QuerySnapshot> entryStream = context.watch<EntryProvider>().entries;
     return Center(
         child: Column(children: [
-      const Padding(
-          // color:Colors.blue,
-          padding: EdgeInsets.only(top: 10, bottom: 20),
-          child: Text(
-            'Entries',
-            style: TextStyle(fontSize: 50, fontWeight: FontWeight.w500),
-          )),
       Flexible(
           child: StreamBuilder(
         stream: entryStream,
@@ -65,24 +55,73 @@ class _HistoryPageState extends State<HistoryPage> {
             );
           } else if (snapshot.data!.docs.isEmpty) {
             return const Center(
-                child:  Text("You have no entries yet :<")
+                child: Text("PANIC! There are no entries in the database!!"));
+          }
+
+          context
+              .watch<EntryProvider>()
+              .setEntryCount(snapshot.data!.docs.length);
+
+          var user = context.watch<AuthProvider>().getCurrentUser;
+
+          final entries = snapshot.data!.docs;
+          final userEntries =
+              entries.where((entry) => entry['uid'] == user.uid).toList();
+
+          if (userEntries.isEmpty) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, bottom: 20),
+                  child: Text(
+                    'Hello, ${user.displayName}!',
+                    style: const TextStyle(
+                        fontSize: 50, fontWeight: FontWeight.w500),
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 10, bottom: 20),
+                  child: Text(
+                    'You have no entries yet',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300),
+                  ),
+                ),
+              ],
             );
           }
 
-          context.watch<EntryProvider>().setEntryCount(snapshot.data!.docs.length);
-          
+          bool headerRendered = false;
           return ListView.builder(
-            itemCount: snapshot.data?.docs.length,
+            itemCount: userEntries.length + 1,
             itemBuilder: ((context, index) {
-              Entry entry = Entry.fromJson(
-                  snapshot.data?.docs[index].data() as Map<String, dynamic>);
-              entry.id = snapshot.data?.docs[index].id;
+              final adjustedIndex = index - 1;
+              if (headerRendered == false) {
+                headerRendered = true;
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10, bottom: 20),
+                      child: Text(
+                        'Hello, ${user.displayName}!',
+                        style: const TextStyle(
+                            fontSize: 50, fontWeight: FontWeight.w500),
+                      ),
+                    )
+                  ],
+                );
+              } else {
+                final entry = Entry.fromJson(snapshot.data?.docs[adjustedIndex]
+                    .data() as Map<String, dynamic>);
+                entry.id = snapshot.data?.docs[adjustedIndex].id;
 
-              return EntryItem(
+                return EntryItem(
                   key: Key(entry.id!),
                   entry: entry,
-                  onEntryEdit: () {},
-                  onEntryDelete: () {});
+                );
+              }
+              // print(index);
             }),
           );
         },

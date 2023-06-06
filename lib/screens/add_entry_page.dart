@@ -6,7 +6,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmsc23_b5l_project/providers/entry_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:cmsc23_b5l_project/models/entry.dart';
 import 'package:provider/provider.dart';
 
@@ -39,7 +38,7 @@ class _AddEntryPageState extends State<AddEntryPage> {
 
   @override
   Widget build(BuildContext context) {
-    String uid = context.watch<AuthProvider>().getCurrentUser;
+    String uid = context.watch<AuthProvider>().getCurrentUser.uid;
     int id = context.watch<EntryProvider>().entryCount! + 1;
 
     final addEntryButton = SizedBox(
@@ -49,18 +48,14 @@ class _AddEntryPageState extends State<AddEntryPage> {
       child: ElevatedButton(
         onPressed: () async {
           // update firebase
-          var now = DateTime.now();
-          var formatter = DateFormat('MM/dd/yyyy');
-          String formattedDate = formatter.format(now);
-
           var tempMap = addEntryMap;
           tempMap.remove("None of the above");
-          Entry temp = Entry(id: id.toString(), date: formattedDate, illnesses: tempMap, uid: uid);
+          Entry temp = Entry(id: id.toString(), date: Timestamp.now(), illnesses: tempMap, uid: uid);
 
           context.read<EntryProvider>().addEntry(temp);
           Navigator.of(context).pop();
         },
-        child: const Text('Add Entry', style: TextStyle(color: Colors.white)),
+        child: const Text('Add Entry', style: TextStyle(color: Color.fromARGB(255, 75, 75, 75))),
       ),
     );
 
@@ -71,7 +66,7 @@ class _AddEntryPageState extends State<AddEntryPage> {
         onPressed: () async {
           Navigator.pop(context);
         },
-        child: const Text('Back', style: TextStyle(color: Colors.white)),
+        child: const Text('Back', style: TextStyle(color: Color.fromARGB(255, 75, 75, 75))),
       ),
     );
 

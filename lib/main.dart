@@ -38,7 +38,10 @@ class MyApp extends StatelessWidget {
       title: 'Auth',
       initialRoute: '/',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        // primarySwatch: Colors.blue,
+        // colorSchemeSeed: const Color(0xff6750a4),
+        colorSchemeSeed: Colors.blue,
+        useMaterial3: true,
       ),
       routes: {
         '/': (context) => const HomePage(),
