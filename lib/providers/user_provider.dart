@@ -36,8 +36,8 @@ class UserProvider with ChangeNotifier {
   }
 
   // edit entry in firebase
-  void updateEditRequest(String id, bool toEdit) async {
-    String message = await firebaseService.updateEditRequest(id, toEdit);
+  void updateCategory(String id, String category) async {
+    String message = await firebaseService.updateCategory(id, category);
     print(message);
     notifyListeners();
   }

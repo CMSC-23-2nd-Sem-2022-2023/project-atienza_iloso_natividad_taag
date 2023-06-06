@@ -7,6 +7,7 @@ import 'package:cmsc23_b5l_project/screens/student_detail_page.dart';
 import 'package:cmsc23_b5l_project/models/entry.dart';
 import 'package:cmsc23_b5l_project/widgets/user_item.dart';
 import 'package:cmsc23_b5l_project/widgets/entry_item.dart';
+import 'user_detail_page.dart';
 
 class AdminPage extends StatefulWidget {
   const AdminPage({super.key});
@@ -121,7 +122,7 @@ class _AdminPageState extends State<AdminPage> {
                     child: ListTile(
                       contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                       onTap: (){
-                        // print('click on to do item');
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => UserDetailScreen(user: entry)));
                       },
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                       tileColor: Colors.white,

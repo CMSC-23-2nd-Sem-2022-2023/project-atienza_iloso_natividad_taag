@@ -33,10 +33,10 @@ class FirebaseUserAPI {
     }
   }
 
-  Future<String> updateEditRequest(
-      String? id, bool toEdit) async {
+  Future<String> updateCategory(
+      String? id, String category) async {
     try {
-      await db.collection("users").doc(id).update({"toEdit": toEdit});
+      await db.collection("users").doc(id).update({"category": category});
 
       return "Successfully updated student request!";
     } on FirebaseException catch (e) {
