@@ -1,5 +1,4 @@
 import 'package:cmsc23_b5l_project/models/entry.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 
@@ -19,9 +18,9 @@ class EntryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 return Container(
-      margin: EdgeInsets.only(bottom: 20),
+      margin: const EdgeInsets.only(bottom: 20),
       child: ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         onTap: (){
           // print('click on to do item');
           // onToDoChanged(todo);
@@ -33,7 +32,7 @@ return Container(
         //   color: tdBlue),
         title: Text( //text
           entry.date!, 
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16, 
             // color: tdBlack, 
             // decoration: todo.isDone? TextDecoration.lineThrough:null,
@@ -43,8 +42,8 @@ return Container(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container( //edit button
-              padding: EdgeInsets.all(0),
-              margin: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+              padding: const EdgeInsets.all(0),
+              margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
               height:35,
               width: 35,
               decoration: BoxDecoration(
@@ -54,9 +53,9 @@ return Container(
               child: IconButton(
                 color: Colors.white,
                 iconSize: 18,
-                icon: Icon(Icons.edit_outlined),
+                icon: const Icon(Icons.edit_outlined),
                 onPressed:(){
-                  // print('click on delete icon');
+                  print('click on edit icon');
                   // onDeleteItem(todo.id);
                 }
               ),
@@ -64,17 +63,17 @@ return Container(
             ),
             Container( //delete button
               // padding: EdgeInsets.only(),
-              margin: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+              margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
               height:35,
               width: 35,
               decoration: BoxDecoration(
-                color: Color(0xFFDA4040),
+                color: const Color(0xFFDA4040),
                 borderRadius: BorderRadius.circular(5)
               ),
               child: IconButton(
                 color: Colors.white,
                 iconSize: 18,
-                icon: Icon(Icons.delete),
+                icon: const Icon(Icons.delete),
                 onPressed:(){
                   print('click on delete icon');
                   // onDeleteItem(todo.id);

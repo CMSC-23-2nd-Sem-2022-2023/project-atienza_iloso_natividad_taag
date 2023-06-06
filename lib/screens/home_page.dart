@@ -68,6 +68,27 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         drawer: Drawer(
             child: ListView(padding: EdgeInsets.zero, children: [
+              const DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.health_and_safety,
+                        size: 60,
+                        color: Color.fromARGB(255, 239, 239, 239),
+                      ),
+                      Text(
+                        'SiHealth Monitoring App',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  )),
           ListTile(
             title: const Text('Details'),
             onTap: () {
@@ -93,6 +114,15 @@ class _HomePageState extends State<HomePage> {
             // onTabChange: (index) => navigateBottomBar(index),
             onTabChange: (index) {
           navigateBottomBar(index);
-        }));
+        }),
+        floatingActionButton: Visibility(
+          visible: true,
+          child: FloatingActionButton(
+            onPressed: () {
+              print('yeet');
+            },
+            child: const Icon(Icons.add),
+          ),
+        ));
   }
 }
