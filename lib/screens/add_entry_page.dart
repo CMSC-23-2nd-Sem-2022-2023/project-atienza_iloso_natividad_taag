@@ -6,9 +6,12 @@
 //    Updating firebase when the add entry button is clicked.
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:cmsc23_b5l_project/models/entry.dart';
 
 class AddEntryPage extends StatefulWidget {
-  const AddEntryPage({super.key});
+  final Entry? entry;
+  const AddEntryPage({super.key, this.entry});
   @override
   _AddEntryPageState createState() => _AddEntryPageState();
 }
@@ -33,18 +36,27 @@ class _AddEntryPageState extends State<AddEntryPage> {
 
   @override
   Widget build(BuildContext context) {
-    final addEntryButton = Padding(
-      padding: const EdgeInsets.symmetric(vertical: 9.0),
+    final addEntryButton = SizedBox(
+      width: 300.0,
+      height: 40.0,
+      // height: 100.0,
       child: ElevatedButton(
         onPressed: () async {
           // update firebase
+          // TODO : ADD CURRENT USER GETTER
+          var now = DateTime.now();
+          var formatter = DateFormat('MM/dd/yyyy');
+          String formattedDate = formatter.format(now);
+          print(formattedDate);
+          Entry temp = Entry(date: formattedDate, illnesses: addEntryMap, username: 'user');
         },
         child: const Text('Add Entry', style: TextStyle(color: Colors.white)),
       ),
     );
 
-    final backButton = Padding(
-      padding: const EdgeInsets.symmetric(vertical: 9.0),
+    final backButton = SizedBox(
+      width: 300.0,
+      height: 40.0,
       child: ElevatedButton(
         onPressed: () async {
           Navigator.pop(context);
@@ -55,6 +67,9 @@ class _AddEntryPageState extends State<AddEntryPage> {
 
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: const Text("Add today's entry"),
+      ),
       body: Center(
         child: ListView(
           shrinkWrap: true,
@@ -65,10 +80,13 @@ class _AddEntryPageState extends State<AddEntryPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    "Symptoms",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 25),
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(0, 28, 0, 8),
+                    child: Text(
+                      "Symptoms",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 25),
+                    ),
                   ),
                   const Text(
                     "Please tick all the symptoms that apply",
@@ -173,7 +191,7 @@ class _AddEntryPageState extends State<AddEntryPage> {
                         CheckboxListTile(
                           title: Text(addEntryMap.keys.elementAt(8)),
                           value: addEntryMap[
-                              addEntryMap.keys.elementAt(7)], //gets value
+                              addEntryMap.keys.elementAt(8)], //gets value
                           onChanged: (bool? value) {
                             setState(() {
                               addEntryMap[addEntryMap.keys.elementAt(8)] =
@@ -192,7 +210,7 @@ class _AddEntryPageState extends State<AddEntryPage> {
                             });
                           },
                         ),
-                        CheckboxListTile(
+                        SwitchListTile(
                           title: Text(addEntryMap.keys.elementAt(10)),
                           value: addEntryMap[
                               addEntryMap.keys.elementAt(10)], //gets value
@@ -233,7 +251,13 @@ class _AddEntryPageState extends State<AddEntryPage> {
                     height: 10,
                   ),
                   addEntryButton,
-                  backButton
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  backButton,
+                  const SizedBox(
+                    height: 40,
+                  ),
                 ],
               ),
             ),

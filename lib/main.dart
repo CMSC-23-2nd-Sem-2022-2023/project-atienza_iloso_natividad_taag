@@ -1,10 +1,12 @@
+import 'package:cmsc23_b5l_project/providers/entry_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/auth_provider.dart';
-import '../providers/user_provider.dart';
-import 'screens/home_page.dart';
-import 'screens/user_details.dart';
-import '../screens/login.dart';
+import 'package:cmsc23_b5l_project/providers/auth_provider.dart';
+import 'package:cmsc23_b5l_project/providers/user_provider.dart';
+import 'package:cmsc23_b5l_project/screens/home_page.dart';
+import 'package:cmsc23_b5l_project/screens/user_details.dart';
+import 'package:cmsc23_b5l_project/screens/add_entry_page.dart';
+import 'package:cmsc23_b5l_project/screens/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -19,6 +21,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: ((context) => AuthProvider())),
         ChangeNotifierProvider(create: ((context) => UserProvider())),
+        ChangeNotifierProvider(create: ((context) => EntryProvider())),
       ],
       child: MyApp(),
     ),
@@ -41,6 +44,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const HomePage(),
         '/login': (context) => const LoginPage(),
         '/home': (context) => const LoginPage(),
+        '/add_entry': (context) => const AddEntryPage(),
         '/user_details': (context) => const UserDetailsPage(),
       },
     );

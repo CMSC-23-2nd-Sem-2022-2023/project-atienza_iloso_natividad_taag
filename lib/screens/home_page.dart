@@ -1,3 +1,4 @@
+import 'package:cmsc23_b5l_project/screens/add_entry_page.dart';
 import 'package:cmsc23_b5l_project/screens/history_page.dart';
 import 'package:cmsc23_b5l_project/screens/profile_page.dart';
 import 'package:cmsc23_b5l_project/screens/admin_page.dart';
@@ -36,13 +37,18 @@ class _HomePageState extends State<HomePage> {
 
     //cart page
     const ProfilePage(),
-  
+
     //admin view
     AdminPage(),
   ];
 
   @override
   Widget build(BuildContext context) {
+
+    bool _hasEntryToday = false;
+    // Debugging
+    _hasEntryToday = true;
+
     Stream<User?> userStream = context.watch<AuthProvider>().uStream;
 
     return StreamBuilder(
@@ -68,27 +74,27 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         drawer: Drawer(
             child: ListView(padding: EdgeInsets.zero, children: [
-              const DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
+          const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.health_and_safety,
+                    size: 60,
+                    color: Color.fromARGB(255, 239, 239, 239),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.health_and_safety,
-                        size: 60,
-                        color: Color.fromARGB(255, 239, 239, 239),
-                      ),
-                      Text(
-                        'SiHealth Monitoring App',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  )),
+                  Text(
+                    'SiHealth Monitoring App',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              )),
           ListTile(
             title: const Text('Details'),
             onTap: () {
@@ -119,7 +125,11 @@ class _HomePageState extends State<HomePage> {
           visible: true,
           child: FloatingActionButton(
             onPressed: () {
-              print('yeet');
+              Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const AddEntryPage(),
+            ),
+          );
             },
             child: const Icon(Icons.add),
           ),
