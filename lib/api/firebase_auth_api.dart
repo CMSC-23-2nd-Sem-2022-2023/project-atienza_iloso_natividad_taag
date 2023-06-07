@@ -10,9 +10,8 @@ class FirebaseAuthAPI {
   }
 
   Future<void> signIn(String email, String password) async {
-    UserCredential credential;
     try {
-      final credential = await auth.signInWithEmailAndPassword(
+      final UserCredential credential = await auth.signInWithEmailAndPassword(
           email: email, password: password);
 
       //let's print the object returned by signInWithEmailAndPassword
@@ -29,7 +28,7 @@ class FirebaseAuthAPI {
     }
   }
 
-  Future<void> signUp(String email, String password) async {
+  Future<void> signUp(String name, String email, String password) async {
     UserCredential credential;
     try {
       credential = await auth.createUserWithEmailAndPassword(
@@ -39,6 +38,16 @@ class FirebaseAuthAPI {
 
       //let's print the object returned by signInWithEmailAndPassword
       //you can use this object to get the user's id, email, etc.\
+
+      User? user = credential.user;
+      if (user != null) {
+        // Set display name and email for the user
+        await user.updateDisplayName(name);
+        user = auth.currentUser;
+        // Print the updated user object
+        print(user);
+      }
+
       print(credential);
     } on FirebaseAuthException catch (e) {
       //possible to return something more useful
@@ -67,8 +76,7 @@ class FirebaseAuthAPI {
     Timestamp date
     ) async {
     try {
-      await db.collection("users").add(
-        {
+      await db.collection("users").add({
         'email': email,
         'name': name,
         'username': username,

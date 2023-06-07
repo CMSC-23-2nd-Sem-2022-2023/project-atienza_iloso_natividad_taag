@@ -16,7 +16,7 @@ class RequestsPage extends StatefulWidget {
 }
 
 class _RequestsPageState extends State<RequestsPage> {
-  
+
   var formatter = DateFormat('MM/dd/yyyy');
 
   @override
@@ -77,7 +77,7 @@ class _RequestsPageState extends State<RequestsPage> {
                     Entry entry = Entry.fromJson(
                         snapshot.data?.docs[index].data() as Map<String, dynamic>);
                     entry.id = snapshot.data?.docs[index].id;
-                    
+
                     return
                     Container(
                     margin: EdgeInsets.only(bottom: 20),
@@ -128,7 +128,7 @@ class _RequestsPageState extends State<RequestsPage> {
                               iconSize: 18,
                               icon: Icon(Icons.close),
                               onPressed:(){
-                                context.read<EntryProvider>().updateToEdit(entry.id!);
+                                context.read<EntryProvider>().updateEditRequest(entry.id!, false);
                               }
                             ),
                           ),
@@ -203,10 +203,10 @@ class _RequestsPageState extends State<RequestsPage> {
                               icon: Icon(Icons.close),
                               onPressed:(){
                                 // change toDelete to false
-                                context.read<EntryProvider>().updateToDelete(entry2.id!);
+                                context.read<EntryProvider>().makeDeleteRequest(entry2.id!, false);
                               }
                             ),
-                          
+
                           ),
                         ],
                       ),

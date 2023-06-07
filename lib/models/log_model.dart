@@ -7,12 +7,12 @@ class Log {
   String email;
   String name;
   String username;
-  String? college;
-  String? course;
+  String college;
+  String course;
   String studentnum;
   String? status;
   String? location; 
-  Timestamp date;
+  Timestamp? date;
 
   int compareTo(Log other) => name.compareTo(other.name);
 
@@ -26,7 +26,7 @@ class Log {
     required this.studentnum,
     this.status,
     this.location,
-    required this.date
+    this.date
   });
 
   factory Log.fromJson(Map<String, dynamic> json) {

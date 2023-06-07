@@ -1,3 +1,4 @@
+import 'package:cmsc23_b5l_project/screens/add_entry_page.dart';
 import 'package:cmsc23_b5l_project/screens/history_page.dart';
 import 'package:cmsc23_b5l_project/screens/profile_page.dart';
 import 'package:cmsc23_b5l_project/screens/admin_page.dart';
@@ -38,7 +39,7 @@ class _HomePageState extends State<HomePage> {
 
     //cart page
     const ProfilePage(),
-  
+
     //admin view
     AdminPage(),
 
@@ -49,7 +50,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Stream<User?> userStream = context.watch<AuthProvider>().uStream;
+
+    bool _hasEntryToday = false;
+    // Debugging
+    _hasEntryToday = true;
+
+    Stream<User?> userStream = context.watch<AuthProvider>().userStream;
 
     return StreamBuilder(
         stream: userStream,
@@ -65,6 +71,9 @@ class _HomePageState extends State<HomePage> {
           } else if (!snapshot.hasData) {
             return const LoginPage();
           }
+
+          // String uid = snapshot.data!.uid;
+          context.watch<AuthProvider>().setCurrentUser(snapshot.data!);
           // if user is logged in, display the scaffold containing the streambuilder for the todos
           return displayScaffold(context);
         });
@@ -74,6 +83,27 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         drawer: Drawer(
             child: ListView(padding: EdgeInsets.zero, children: [
+           DrawerHeader(
+              decoration: BoxDecoration(
+                color: Color.fromARGB(255, 209, 228, 255),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.health_and_safety,
+                    size: 60,
+                    color: Color.fromARGB(255, 0, 28, 53),
+                  ),
+                  Text(
+                    'SiHealth Monitoring App',
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 0, 28, 53),
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              )),
           ListTile(
             title: const Text('Details'),
             onTap: () {
@@ -99,6 +129,19 @@ class _HomePageState extends State<HomePage> {
             // onTabChange: (index) => navigateBottomBar(index),
             onTabChange: (index) {
           navigateBottomBar(index);
-        }));
+        }),
+        floatingActionButton: Visibility(
+          visible: true,
+          child: FloatingActionButton(
+            onPressed: () {
+              Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const AddEntryPage(),
+            ),
+          );
+            },
+            child: const Icon(Icons.add),
+          ),
+        ));
   }
 }

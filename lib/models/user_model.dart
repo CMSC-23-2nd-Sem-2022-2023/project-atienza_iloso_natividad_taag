@@ -1,41 +1,46 @@
 import 'dart:convert';
-import 'package:intl/intl.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
   String? id;
+  String? userType;
   String email;
   String name;
   String username;
   String? college;
   String? course;
-  String studentnum;
+  String? studentnum;
   List<dynamic>? illnesses;
   String? allergies;
   String? status;
   String? usertype; 
-  Timestamp date;
+  Timestamp? latestEntryDate;
+  Timestamp? date;
 
   int compareTo(User other) => name.compareTo(other.name);
 
   User({
     this.id,
     required this.email,
+    this.userType,
     required this.name,
     required this.username,
-    required this.college,
-    required this.course,
-    required this.studentnum,
+    this.college,
+    this.course,
+    this.studentnum,
     this.illnesses,
     this.allergies,
     this.status,
     this.usertype,
-    required this.date
+    this.latestEntryDate,
+    this.date,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
         id: json['id'],
+        userType: json['userType'],
         email: json['email'],
         name: json['name'],
         username: json['username'],
@@ -46,7 +51,8 @@ class User {
         allergies: json['allergies'],
         status: json['status'],
         usertype: json['usertype'],
-        date: json['date']
+        latestEntryDate: json['latestEntryDate'],
+        date: json['date'],
         );
   }
 
@@ -58,6 +64,7 @@ class User {
   Map<String, dynamic> toJson(User user) {
     return {
       'id': user.id,
+      'userType': user.userType,
       'email': user.email,
       'name': user.name,
       'username': user.username,
@@ -68,7 +75,8 @@ class User {
       'allergies': user.allergies,
       'status': user.status,
       'usertype': user.usertype,
-      'date': user.date
+      'latestEntryDate': user.latestEntryDate,
+      'date': user.date,
     };
   }
 }

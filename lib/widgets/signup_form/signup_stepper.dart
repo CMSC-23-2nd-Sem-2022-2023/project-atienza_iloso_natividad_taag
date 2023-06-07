@@ -337,7 +337,7 @@ class _SignUpStepperState extends State<SignUpStepper> {
 
           await context
               .read<AuthProvider>()
-              .signUp(emailController.text, passwordController.text);
+              .signUp(nameController.text, emailController.text, passwordController.text);
 
           await context.read<AuthProvider>().addUser(
               //add user when signing up

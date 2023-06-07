@@ -232,7 +232,7 @@ class _SignUpAdminStepperState extends State<SignUpAdminStepper> {
 
           await context
               .read<AuthProvider>()
-              .signUp(emailController.text, passwordController.text);
+              .signUp(nameController.text, emailController.text, passwordController.text);
 
           await context.read<AuthProvider>().addAdminEmonitor(
               //add user when signing up

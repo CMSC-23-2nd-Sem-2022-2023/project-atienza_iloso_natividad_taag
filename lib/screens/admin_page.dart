@@ -118,7 +118,7 @@ class _AdminPageState extends State<AdminPage> {
                             entry.college,
                             entry.course,
                             entry.studentnum,
-                            formatter.format(DateTime.fromMillisecondsSinceEpoch(entry.date.seconds * 1000))
+                            formatter.format(DateTime.fromMillisecondsSinceEpoch(entry.date!.seconds * 1000))
                           ],
                           sort: (a, b) => a.compareTo(b),
                           builder: (entry) => 
@@ -134,9 +134,9 @@ class _AdminPageState extends State<AdminPage> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(entry.studentnum),
+                                Text(entry.studentnum!),
                                 Text('${entry.college} - ${entry.course}'),
-                                Text('${formatter.format(DateTime.fromMillisecondsSinceEpoch(entry.date.seconds * 1000))}')
+                                Text('${formatter.format(DateTime.fromMillisecondsSinceEpoch(entry.date!.seconds * 1000))}')
                               ],
                             ),
                             )
@@ -185,7 +185,7 @@ class _AdminPageState extends State<AdminPage> {
                         style: TextStyle(fontSize: 16)
                       ),
                       trailing: Text(
-                        entry.studentnum, 
+                        entry.studentnum!, 
                         style: TextStyle(fontSize: 16)
                       ),
                       )
