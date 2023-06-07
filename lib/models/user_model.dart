@@ -7,10 +7,10 @@ class User {
   String? userType;
   String email;
   String name;
-  String username;
+  String? username;
   String? college;
   String? course;
-  String? studentnum;
+  String studentnum;
   String? employeeno;
   String? position;
   String? homeunit;
@@ -28,10 +28,10 @@ class User {
     required this.email,
      this.userType,
     required this.name,
-    required this.username,
-    this.college,
-    this.course,
-    this.studentnum,
+     this.username,
+     this.college,
+     this.course,
+    required this.studentnum,
     this.employeeno,
     this.position,
     this.homeunit,

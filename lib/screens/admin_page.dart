@@ -2,7 +2,6 @@ import 'package:cmsc23_b5l_project/models/user_model.dart';
 import 'package:cmsc23_b5l_project/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
 import "package:provider/provider.dart";
 import 'user_detail_page.dart';
 import 'package:search_page/search_page.dart';
@@ -17,30 +16,29 @@ class AdminPage extends StatefulWidget {
 
 class _AdminPageState extends State<AdminPage> {
   static final List<String> _dropdownOptions = [
-    "All",
-    "Under Quarantine",
-    "Under Monitoring"
+    "Default",
+    "Quarantined",
+    "Under monitoring"
   ];
 
   Map<String, dynamic> formValues = {
     'dropdownValue': _dropdownOptions.first,
   };
 
-  void statusSelection(String? value) {
+  void categorySelection(String? value) {
     setState(() {
       formValues["dropdownValue"] = value;
     });
   }
 
   List<User> userSearchItem = [];
-  var formatter = DateFormat('MM/dd/yyyy');
 
   @override
   Widget build(BuildContext context) {
     Stream<QuerySnapshot>? entriesStream;
-    if (formValues["dropdownValue"] == "Under Quarantine") {
+    if (formValues["dropdownValue"] == "Quarantined") {
       entriesStream = context.watch<UserProvider>().underquarantine;
-    } else if (formValues["dropdownValue"] == "Under Monitoring") {
+    } else if (formValues["dropdownValue"] == "Under monitoring") {
       entriesStream = context.watch<UserProvider>().undermonitoring;
     } else {
       entriesStream = context.watch<UserProvider>().entries;
@@ -83,7 +81,7 @@ class _AdminPageState extends State<AdminPage> {
                     flex: 11,
                     child: DropdownButtonFormField<String>(
                     value: _dropdownOptions.first,
-                    onChanged: statusSelection,
+                    onChanged: categorySelection,
                     items: _dropdownOptions.map<DropdownMenuItem<String>>(
                     (String value) {
                         return DropdownMenuItem<String>(
@@ -118,15 +116,15 @@ class _AdminPageState extends State<AdminPage> {
                             entry.college,
                             entry.course,
                             entry.studentnum,
-                            formatter.format(DateTime.fromMillisecondsSinceEpoch(entry.date!.seconds * 1000))
+                            //entry.date
                           ],
                           sort: (a, b) => a.compareTo(b),
                           builder: (entry) => 
                             ListTile(
+                              contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                               onTap: (){
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => UserDetailScreen(user: entry)));
                               },
-                              contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                               tileColor: Colors.white,
                               title: Text(entry.name, style: TextStyle(fontSize: 16)),
@@ -134,9 +132,9 @@ class _AdminPageState extends State<AdminPage> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(entry.studentnum as String),
+                                Text(entry.studentnum),
                                 Text('${entry.college} - ${entry.course}'),
-                                Text('${formatter.format(DateTime.fromMillisecondsSinceEpoch(entry.date!.seconds * 1000))}')
+                                //Text('${entry.date}')
                               ],
                             ),
                             )
@@ -185,7 +183,7 @@ class _AdminPageState extends State<AdminPage> {
                         style: TextStyle(fontSize: 16)
                       ),
                       trailing: Text(
-                        entry.studentnum as String, 
+                        entry.studentnum, 
                         style: TextStyle(fontSize: 16)
                       ),
                       )
