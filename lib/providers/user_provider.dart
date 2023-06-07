@@ -29,5 +29,4 @@ class UserProvider with ChangeNotifier {
     print(message);
     notifyListeners();
   }
-
 }

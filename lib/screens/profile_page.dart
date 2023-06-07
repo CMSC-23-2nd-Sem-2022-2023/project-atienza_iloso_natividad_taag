@@ -1,12 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmsc23_b5l_project/models/entry.dart';
-import 'package:cmsc23_b5l_project/widgets/entry_item.dart';
+import 'package:cmsc23_b5l_project/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:provider/provider.dart';
 import '../providers/entry_provider.dart';
-import '../models/entry.dart';
-import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -27,8 +23,10 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget buildQR() {
     final entryProvider = Provider.of<EntryProvider>(context);
+    String uid = context.watch<AuthProvider>().getCurrentUser.uid;
+
     return FutureBuilder<Entry?>(
-      future: entryProvider.entryLatest,
+      future: entryProvider.getLatestEntryForUid(uid),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();

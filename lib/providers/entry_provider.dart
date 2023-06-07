@@ -3,7 +3,6 @@ import '../api/firebase_entry_api.dart';
 import '../models/entry.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class EntryProvider with ChangeNotifier {
   late FirebaseEntryAPI firebaseService;
   late Stream<QuerySnapshot> _entriesStream;
@@ -14,7 +13,7 @@ class EntryProvider with ChangeNotifier {
     firebaseService = FirebaseEntryAPI();
     fetchEntries();
   }
-  
+
   Stream<QuerySnapshot> get entries => _entriesStream;
   int? get entryCount => _entryCount;
 
@@ -22,8 +21,8 @@ class EntryProvider with ChangeNotifier {
     _entriesStream = firebaseService.getAllEntries();
     notifyListeners();
   }
-  
-  void addEntry(Entry entry) async{
+
+  void addEntry(Entry entry) async {
     String message = await firebaseService.addEntry(entry.toJson(entry));
     _entryCount = _entryCount! + 1;
     // ignore: avoid_print
@@ -48,19 +47,25 @@ class EntryProvider with ChangeNotifier {
     _entryCount = count;
   }
 
-  Future<Entry?> get entryLatest async {
+  Future<Entry?> getLatestEntryForUid(String uid) async {
     final snapshot = await firebaseService.getAllEntries().first;
     final entries = snapshot.docs;
-    final latestEntry = entries.isNotEmpty
-        ? Entry.fromJson(entries.first.data() as Map<String, dynamic>)
-        : null;
+    Entry? latestEntry;
+
+    for (var doc in entries) {
+      final entry = Entry.fromJson(doc.data() as Map<String, dynamic>);
+      if (entry.uid == uid) {
+        if (latestEntry == null || entry.date.compareTo(latestEntry.date) > 0) {
+          latestEntry = entry;
+        }
+      }
+    }
+
     return latestEntry;
   }
 
   bool hasEntryToday() {
     var out = false;
-
-    
 
     return out;
   }
