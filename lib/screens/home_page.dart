@@ -2,6 +2,7 @@ import 'package:cmsc23_b5l_project/screens/history_page.dart';
 import 'package:cmsc23_b5l_project/screens/profile_page.dart';
 import 'package:cmsc23_b5l_project/screens/admin_page.dart';
 import 'package:cmsc23_b5l_project/screens/monitor_page.dart';
+import 'package:cmsc23_b5l_project/screens/scanner_page.dart';
 import 'package:cmsc23_b5l_project/widgets/bottom_nav_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,9 @@ class _HomePageState extends State<HomePage> {
     //admin view
     AdminPage(),
 
-    EntranceMonitorPage()
+    EntranceMonitorPage(), 
+
+    ScannerPage(),
   ];
 
   @override
