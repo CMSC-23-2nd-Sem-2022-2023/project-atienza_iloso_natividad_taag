@@ -1,11 +1,12 @@
 import 'package:cmsc23_b5l_project/models/entry.dart';
 import 'package:cmsc23_b5l_project/providers/entry_provider.dart';
 import 'package:cmsc23_b5l_project/screens/add_entry_page.dart';
+import 'package:cmsc23_b5l_project/screens/delete_requests_page.dart';
+import 'package:cmsc23_b5l_project/screens/edit_requests_page.dart';
 import 'package:cmsc23_b5l_project/screens/history_page.dart';
 import 'package:cmsc23_b5l_project/screens/profile_page.dart';
 import 'package:cmsc23_b5l_project/screens/admin_page.dart';
 import 'package:cmsc23_b5l_project/screens/monitor_page.dart';
-import 'package:cmsc23_b5l_project/screens/requests_page.dart';
 import 'package:cmsc23_b5l_project/screens/login.dart';
 import 'package:cmsc23_b5l_project/screens/user_details.dart';
 import 'package:cmsc23_b5l_project/widgets/bottom_nav_bar.dart';
@@ -45,9 +46,7 @@ class _HomePageState extends State<HomePage> {
     //admin view
     const AdminPage(),
 
-    const RequestsPage(),
-
-    const EntranceMonitorPage()
+    EntranceMonitorPage()
   ];
 
   @override
@@ -128,12 +127,38 @@ class _HomePageState extends State<HomePage> {
                 ],
               )),
           ListTile(
+            title: const Text('Home'),
+            onTap: () {
+              Navigator.pop(
+                  context,
+                  );
+            },
+          ),
+          ListTile(
             title: const Text('Details'),
             onTap: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => const UserDetailsPage()));
+            },
+          ),
+          ListTile(
+            title: const Text('Edit Requests'),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const EditRequestsPage()));
+            },
+          ),
+          ListTile(
+            title: const Text('Delete Requests'),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const DeleteRequestsPage()));
             },
           ),
           ListTile(
