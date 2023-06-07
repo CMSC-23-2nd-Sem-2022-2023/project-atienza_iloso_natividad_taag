@@ -142,7 +142,6 @@ class _EditRequestsPageState extends State<EditRequestsPage> {
                     Entry entry = Entry.fromJson(
                         snapshot.data?.docs[index].data() as Map<String, dynamic>);
                     entry.id = snapshot.data?.docs[index].id;
-
                     return
                     Container(
                     margin: EdgeInsets.only(bottom: 20),
