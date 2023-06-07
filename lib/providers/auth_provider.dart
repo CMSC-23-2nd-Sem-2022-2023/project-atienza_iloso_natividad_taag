@@ -17,6 +17,7 @@ class AuthProvider with ChangeNotifier {
 
   Stream<User?> get userStream => _uStream;
   User get getCurrentUser => _cUser!;
+  String get getCurrentUserName => _cUser!.displayName ?? '';
 
   void fetchAuthentication() {
     _uStream = authService.getUser();
