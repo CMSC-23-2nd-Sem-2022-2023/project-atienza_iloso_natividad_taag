@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
@@ -20,19 +21,6 @@ class _SignUpAdminStepperState extends State<SignUpAdminStepper> {
   TextEditingController employeenoController = TextEditingController();
   TextEditingController homeunitController = TextEditingController();
   TextEditingController positionController = TextEditingController();
-
-  Map<String, dynamic> illnessMap = {
-    "Hypertension": false,
-    "Diabetes": false,
-    "Tuberculosis": false,
-    "Cancer": false,
-    "Kidney Disease": false,
-    "Cardiac Disease": false,
-    "Autoimmune Disease": false,
-    "Asthma": false,
-  };
-
-  List<String> illnesses = [];
 
   String? validateName(String? name) {
     if (name == null || name.isEmpty) {
@@ -226,21 +214,23 @@ class _SignUpAdminStepperState extends State<SignUpAdminStepper> {
             }),
       onStepContinue: () async {
         if (isLastStep) {
-          illnessMap.forEach((k, v) {
-            v ? illnesses.add(k) : 0;
-          });
+          await context.read<AuthProvider>().signUp(nameController.text,
+              emailController.text, passwordController.text);
 
-          await context
-              .read<AuthProvider>()
-              .signUp(emailController.text, passwordController.text);
-
-          await context.read<AuthProvider>().addAdminEmonitor(
-              //add user when signing up
-              emailController.text,
+          String result = await context.read<AuthProvider>().signUp(
               nameController.text,
-              employeenoController.text,
-              positionController.text,
-              homeunitController.text);
+              emailController.text,
+              passwordController.text);
+
+          if (result == 'Success!') {
+            await context.read<AuthProvider>().addUser(
+                email: emailController.text,
+                name: nameController.text,
+                username: usernameController.text,
+                status: 'cleared',
+                usertype: 'admin',
+                date: Timestamp.now());
+          }
 
           if (context.mounted) Navigator.pop(context);
         } else {

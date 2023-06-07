@@ -1,25 +1,101 @@
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Entry{
-  String ? id;
-  String ? date; 
+  String? id;
+  Timestamp date;
+  String uid;
+  Map<String, dynamic> illnesses;
+  bool? toEdit;
+  bool? toDelete;
 
   Entry(
     {
-      required this.id,
+      this.id,
       required this.date,
+      required this.uid,
+      required this.illnesses,
+      this.toEdit = false,
+      this.toDelete = false,
     }
   );
 
-  static List<Entry> entryList(){
-    return [
-      Entry(id:'01', date:'05/25/2023'),
-      Entry(id:'02', date:'05/24/2023'),
-      Entry(id:'03', date:'05/23/2023'),
-      Entry(id:'04', date:'05/22/2023'),
-      Entry(id:'05', date:'05/21/2023'),
-      Entry(id:'06', date:'05/20/2023'),
-      Entry(id:'07', date:'05/19/2023'),
-      Entry(id:'08', date:'05/18/2023'),
-      Entry(id:'09', date:'05/217/2023'),
-    ];
+  factory Entry.fromJson(Map<String, dynamic> json) {
+    return Entry(
+        id: json['id'],
+        date: json['date'],
+        uid: json['uid'],
+        illnesses: json['illnesses'],
+        toEdit: json['toEdit'],
+        toDelete: json['toDelete'],
+        );
+  }
+
+  static List<Entry> fromJsonArray(String jsonData) {
+    final Iterable<dynamic> data = jsonDecode(jsonData);
+    return data.map<Entry>((dynamic d) => Entry.fromJson(d)).toList();
+  }
+
+  Map<String, dynamic> toJson(Entry entry) {
+    return {
+      'id': entry.id,
+      'date': entry.date,
+      'uid': entry.uid,
+      'illnesses': entry.illnesses,
+      'toEdit': entry.toEdit,
+      'toDelete': entry.toDelete,
+    };
+  }
+}
+
+class EntryEditRequest{
+  String? id;
+  String? entryRefId;
+  Timestamp date;
+  String uid;
+  Map<String, dynamic> illnesses;
+  bool? toEdit;
+  bool? toDelete;
+
+  EntryEditRequest(
+    {
+      this.id,
+      this.entryRefId,
+      required this.date,
+      required this.uid,
+      required this.illnesses,
+      this.toEdit = false,
+      this.toDelete = false,
+    }
+  );
+
+  factory EntryEditRequest.fromJson(Map<String, dynamic> json) {
+    return EntryEditRequest(
+        id: json['id'],
+        entryRefId: json['entryRefId'],
+        date: json['date'],
+        uid: json['uid'],
+        illnesses: json['illnesses'],
+        toEdit: json['toEdit'],
+        toDelete: json['toDelete'],
+        );
+  }
+
+  static List<EntryEditRequest> fromJsonArray(String jsonData) {
+    final Iterable<dynamic> data = jsonDecode(jsonData);
+    return data.map<EntryEditRequest>((dynamic d) => EntryEditRequest.fromJson(d)).toList();
+  }
+
+  Map<String, dynamic> toJson(EntryEditRequest entry) {
+    return {
+      'id': entry.id,
+      'entryRefId': entry.entryRefId,
+      'date': entry.date,
+      'uid': entry.uid,
+      'illnesses': entry.illnesses,
+      'toEdit': entry.toEdit,
+      'toDelete': entry.toDelete,
+    };
   }
 }
