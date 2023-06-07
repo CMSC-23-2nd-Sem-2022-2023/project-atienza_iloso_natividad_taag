@@ -17,6 +17,7 @@ class EntranceMonitorPage extends StatefulWidget {
 
 class _EntranceMonitorPageState extends State<EntranceMonitorPage> {
   List<Log> userSearchItem = [];
+  var formatter = DateFormat('MM/dd/yyyy');
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +83,7 @@ class _EntranceMonitorPageState extends State<EntranceMonitorPage> {
                             log.studentnum,
                             log.status,
                             log.location,
-                            DateFormat.yMMMd().add_jm().format(log.date!.toDate()).toString()
+                            formatter.format(DateTime.fromMillisecondsSinceEpoch(log.date!.seconds * 1000))
                           ],
                           sort: (a, b) => a.compareTo(b),
                           builder: (entry) => 

@@ -335,9 +335,6 @@ class _SignUpStepperState extends State<SignUpStepper> {
             v ? illnesses.add(k) : 0;
           });
 
-          DateTime now = DateTime.now();
-          String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
-
           await context
               .read<AuthProvider>()
               .signUp(emailController.text, passwordController.text);

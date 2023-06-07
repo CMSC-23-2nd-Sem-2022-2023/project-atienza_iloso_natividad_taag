@@ -14,7 +14,8 @@ class LogDetailScreen extends StatelessWidget {
   TextEditingController statusController = TextEditingController();
   TextEditingController locationController = TextEditingController();
   TextEditingController studentnumController = TextEditingController();
-
+  var formatter = DateFormat('MM/dd/yyyy');
+  
   @override
   Widget build(BuildContext context) {
     Stream<QuerySnapshot> entriesStream = context.watch<LogProvider>().underquarantine;
@@ -120,7 +121,7 @@ class LogDetailScreen extends StatelessWidget {
               child: Text("Date", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
             ),
             Expanded(flex: 4,
-              child: Text("${DateFormat.yMMMd().add_jm().format(log.date!.toDate()).toString()}", style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic),),
+              child: Text("${formatter.format(DateTime.fromMillisecondsSinceEpoch(log.date!.seconds * 1000))}", style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic),),
             ),
           ],),
 

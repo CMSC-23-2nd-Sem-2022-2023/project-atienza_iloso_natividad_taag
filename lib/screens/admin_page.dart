@@ -33,6 +33,7 @@ class _AdminPageState extends State<AdminPage> {
   }
 
   List<User> userSearchItem = [];
+  var formatter = DateFormat('MM/dd/yyyy');
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +118,7 @@ class _AdminPageState extends State<AdminPage> {
                             entry.college,
                             entry.course,
                             entry.studentnum,
-                            DateFormat.yMMMd().add_jm().format(entry.date!.toDate()).toString()
+                            formatter.format(DateTime.fromMillisecondsSinceEpoch(entry.date!.seconds * 1000))
                           ],
                           sort: (a, b) => a.compareTo(b),
                           builder: (entry) => 
@@ -135,7 +136,7 @@ class _AdminPageState extends State<AdminPage> {
                               children: [
                                 Text(entry.studentnum),
                                 Text('${entry.college} - ${entry.course}'),
-                                Text('${DateFormat.yMMMd().add_jm().format(entry.date!.toDate()).toString()}')
+                                Text('${formatter.format(DateTime.fromMillisecondsSinceEpoch(entry.date!.seconds * 1000))}')
                               ],
                             ),
                             )
