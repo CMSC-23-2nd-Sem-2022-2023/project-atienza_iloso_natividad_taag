@@ -1,37 +1,29 @@
-# cmsc23_b5l_project
+## Group Details
+- Atienza, Jonas
+- Iloso, Jazmin Joy 
+- Natividad, Aira Nicole
+- Taag, Kristoffer Laurence
 
-A new Flutter project.
+## Program Description: COVID-19 Monitoring App
+- Mobile application designed to track and monitor the health status of users in relation to COVID-19. 
+- The app consists of three main views: User's View, Admin's View, and Entrance Monitor's View.
+- In the User's View, users can sign in using their authentication credentials and enter their health status to generate a building pass.
+- If a user exhibit symptoms such as feverloss of taste, or loss of smell, they will not be allowed entry, and a QR code will not be generated for them.
+- Users who have had face-to-face encounters or contact with a confirmed COVID-19 case will be placed under monitoring.
+- Users can also edit or delete their health entries, but these changes need to be approved by the admin.
+- The Admin's View allows administrators to sign in using their authentication credentials and perform administrative tasks.
+- The Entrance Monitor's View is specifically designed for entrance monitors responsible for verifying users' health statuses before allowing them entry.
 
-# To-Do List:
-[Google Sheets](https://docs.google.com/spreadsheets/d/1I11xWm9xPXwuOOzZs6WqnkFIC-Ly3qMpCTj_akDOzb4/edit#gid=1386834576)
 
-## Getting Started
+## Installation Guide
+- Download the file
+- Go to the root of the file directory
+- Enter cd [project]
+- Run flutter build apk --split-per-abi
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
-## What's the dev process?
-1. Go to our [repository](https://github.com/CMSC-23-2nd-Sem-2022-2023/project-atienza_iloso_natividad_taag).
-2. Go to the Issues page.
-3. Find the ticket you are assigned with. You should be able to see the details of the ticket.
-4. In the right panel of the detail page of the ticket, under Development, you should see a link button ```Create a branch```. Click it.
-5. A popup should show up. Now, click the green button to continue creating a branch.
-6. Copy the git commands given to you.
-7. In your terminal, paste the commands. This should change your current branch to your ticket branch.
-8. Start developing!
-
-## Commit cheatsheet
-- Make smaller commits.
-- Use ```chore: [message]``` if the commit is related to removing unused lines of code or any changes that doesn't affect the codebase.
-- Use ```feat: [message]``` if you are implementing a new feature.
-- Use ```refactor: [message]``` if you are improving an existing implementation/feature/
-- Use ```fix: [message]``` if you are addressing bugs.
-- Or for full details, you can follow this [cheatsheet](https://www.conventionalcommits.org/en/v1.0.0/).
+## How to Use
+- Sign up as User/Admin/Entrance monitor
+- Log in
+- If user: Add/Edit/Delete entry for the day
+- If admin: You can view, edit and search all or specific users, and can also approve/reject requests from users.
+- If monitor: You can view, edit and search student logs
