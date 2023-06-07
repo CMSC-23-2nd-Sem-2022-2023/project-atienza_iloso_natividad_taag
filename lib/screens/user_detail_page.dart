@@ -120,8 +120,9 @@ class UserDetailScreen extends StatelessWidget {
           user.status == 'Under Quarantine' ?
           Column(children: [
             Padding(padding: EdgeInsets.only(top: 20)),
-            Text('Number of students quarantined: ${snapshot.data?.docs.length}'),
-            ElevatedButton(
+            Text('Number of students quarantined: ${snapshot.data?.docs.length}', style: TextStyle(
+              fontSize: 18)),
+            TextButton(
             onPressed: () {
               context.read<UserProvider>().updateStatus(user.id!, "Cleared");
               Navigator.pop(context);
@@ -133,8 +134,9 @@ class UserDetailScreen extends StatelessWidget {
           ],) : 
           Column(children: [
             Padding(padding: EdgeInsets.only(top: 20)),
-            Text('Number of students quarantined: ${snapshot.data?.docs.length}'),
-            ElevatedButton(
+            Text('Number of students quarantined: ${snapshot.data?.docs.length}', style: TextStyle(
+              fontSize: 18)),
+            TextButton(
             onPressed: () {
               context.read<UserProvider>().updateStatus(user.id!, "Under Quarantine");
               Navigator.pop(context);
@@ -148,7 +150,7 @@ class UserDetailScreen extends StatelessWidget {
           user.status == 'Under Monitoring' ?
           Column(children: [
             Padding(padding: EdgeInsets.only(top: 30)),
-            ElevatedButton(
+            TextButton(
             onPressed: () {
               context.read<UserProvider>().updateStatus(user.id!, "Cleared");
               Navigator.pop(context);
@@ -159,7 +161,7 @@ class UserDetailScreen extends StatelessWidget {
             ),
 
             Padding(padding: EdgeInsets.only(top: 10)),
-            ElevatedButton(
+            TextButton(
             onPressed: () {
               context.read<UserProvider>().updateStatus(user.id!, "Under Quarantine");
               Navigator.pop(context);
@@ -171,10 +173,11 @@ class UserDetailScreen extends StatelessWidget {
           ],) : Container(),
 
           Padding(padding: EdgeInsets.only(top: 20)),
-          Center(child: Text('Elevate user to:'),),
-          Padding(padding: EdgeInsets.only(top: 10)),
+          Center(child: Text('Elevate user to:', style: TextStyle(
+              fontSize: 18))),
+          Padding(padding: EdgeInsets.only(top: 5)),
           Center(child: Column(children: [
-            ElevatedButton(
+            TextButton(
             onPressed: () {
               context.read<UserProvider>().updateUserType(user.id!, user.email, user.name, "admin");
               Navigator.pop(context);
@@ -183,9 +186,7 @@ class UserDetailScreen extends StatelessWidget {
             style: TextStyle(
               fontSize: 16)),
           ),
-
-          Padding(padding: EdgeInsets.only(top: 5)),
-          ElevatedButton(
+          TextButton(
             onPressed: () {
               context.read<UserProvider>().updateUserType(user.id!, user.email, user.name, "monitor");
               Navigator.pop(context);
@@ -197,8 +198,8 @@ class UserDetailScreen extends StatelessWidget {
           ],)
           ),
 
-          Padding(padding: EdgeInsets.only(top: 20)),
-          ElevatedButton(
+          Padding(padding: EdgeInsets.only(top: 30)),
+          TextButton(
             onPressed: () {Navigator.pop(context);},
             child: const Text('Back',
             style: TextStyle(
