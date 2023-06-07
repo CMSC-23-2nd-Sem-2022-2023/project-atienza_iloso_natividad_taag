@@ -4,9 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import "package:provider/provider.dart";
-import 'user_detail_page.dart';
-import 'package:search_page/search_page.dart';
-import '../providers/entry_provider.dart';
 
 class RequestsPage extends StatefulWidget {
   const RequestsPage({super.key});
