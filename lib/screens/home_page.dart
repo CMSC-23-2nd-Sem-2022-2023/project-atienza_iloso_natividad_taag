@@ -1,18 +1,20 @@
+import 'package:cmsc23_b5l_project/models/entry.dart';
+import 'package:cmsc23_b5l_project/providers/entry_provider.dart';
 import 'package:cmsc23_b5l_project/screens/add_entry_page.dart';
+import 'package:cmsc23_b5l_project/screens/delete_requests_page.dart';
+import 'package:cmsc23_b5l_project/screens/edit_requests_page.dart';
 import 'package:cmsc23_b5l_project/screens/history_page.dart';
 import 'package:cmsc23_b5l_project/screens/profile_page.dart';
 import 'package:cmsc23_b5l_project/screens/admin_page.dart';
 import 'package:cmsc23_b5l_project/screens/monitor_page.dart';
-import 'package:cmsc23_b5l_project/screens/edit_requests_page.dart';
-import 'package:cmsc23_b5l_project/screens/delete_requests_page.dart';
+import 'package:cmsc23_b5l_project/screens/login.dart';
+import 'package:cmsc23_b5l_project/screens/user_details.dart';
 import 'package:cmsc23_b5l_project/widgets/bottom_nav_bar.dart';
+import 'package:cmsc23_b5l_project/providers/auth_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import '../screens/user_details.dart';
-import '../providers/auth_provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import '../screens/login.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -42,18 +44,13 @@ class _HomePageState extends State<HomePage> {
     const ProfilePage(),
 
     //admin view
-    AdminPage(),
+    const AdminPage(),
 
     EntranceMonitorPage()
   ];
 
   @override
   Widget build(BuildContext context) {
-
-    bool _hasEntryToday = false;
-    // Debugging
-    _hasEntryToday = true;
-
     Stream<User?> userStream = context.watch<AuthProvider>().userStream;
 
     return StreamBuilder(
@@ -70,19 +67,45 @@ class _HomePageState extends State<HomePage> {
           } else if (!snapshot.hasData) {
             return const LoginPage();
           }
-
           // String uid = snapshot.data!.uid;
           context.watch<AuthProvider>().setCurrentUser(snapshot.data!);
+
           // if user is logged in, display the scaffold containing the streambuilder for the todos
+
           return displayScaffold(context);
         });
   }
 
   Scaffold displayScaffold(BuildContext context) {
+    bool fabVisible = true;
+    Entry? entry = context.watch<EntryProvider>().cUserLatestEntry;
+    if (entry != null) {
+      var formatter = DateFormat('MM/dd/yyyy');
+      String latestEntryDate = formatter.format(
+          DateTime.fromMillisecondsSinceEpoch(entry.date.seconds * 1000));
+      String dateNow = formatter.format(DateTime.now());
+
+      DateTime date1 = formatter.parse(latestEntryDate);
+      DateTime date2 = formatter.parse(dateNow);
+
+      int comparison = date1.compareTo(date2);
+
+      if (comparison < 0) {
+        print('$date1 is earlier than $date2');
+        fabVisible = true;
+      } else if (comparison > 0) {
+        print('$date1 is later than $date2');
+        fabVisible = false;
+      } else {
+        print('$date1 is the same as $date2');
+        fabVisible = false;
+      }
+    }
+
     return Scaffold(
         drawer: Drawer(
             child: ListView(padding: EdgeInsets.zero, children: [
-           DrawerHeader(
+          const DrawerHeader(
               decoration: BoxDecoration(
                 color: Color.fromARGB(255, 209, 228, 255),
               ),
@@ -156,14 +179,14 @@ class _HomePageState extends State<HomePage> {
           navigateBottomBar(index);
         }),
         floatingActionButton: Visibility(
-          visible: true,
+          visible: fabVisible,
           child: FloatingActionButton(
             onPressed: () {
               Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const AddEntryPage(),
-            ),
-          );
+                MaterialPageRoute(
+                  builder: (context) => const AddEntryPage(),
+                ),
+              );
             },
             child: const Icon(Icons.add),
           ),

@@ -56,6 +56,16 @@ class _HistoryPageState extends State<HistoryPage> {
           final userEntries =
               entries.where((entry) => entry['uid'] == user.uid).toList();
 
+          context
+              .watch<EntryProvider>()
+              .setCurrentUserEntries(userEntries);
+
+          var latestEntry =  Entry.fromJson(userEntries[0].data() as Map<String, dynamic>);
+
+          context
+              .watch<EntryProvider>()
+              .setCUserLatestEntry(latestEntry);
+
           if (userEntries.isEmpty) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,

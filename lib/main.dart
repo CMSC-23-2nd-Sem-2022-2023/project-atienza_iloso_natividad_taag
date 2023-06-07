@@ -1,9 +1,9 @@
-import 'package:cmsc23_b5l_project/providers/entry_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cmsc23_b5l_project/providers/auth_provider.dart';
 import 'package:cmsc23_b5l_project/providers/user_provider.dart';
 import 'package:cmsc23_b5l_project/providers/log_provider.dart';
+import 'package:cmsc23_b5l_project/providers/entry_provider.dart';
 import 'package:cmsc23_b5l_project/screens/home_page.dart';
 import 'package:cmsc23_b5l_project/screens/user_details.dart';
 import 'package:cmsc23_b5l_project/screens/add_entry_page.dart';
@@ -26,7 +26,7 @@ void main() async {
         ChangeNotifierProvider(create: ((context) => LogProvider())),
         ChangeNotifierProvider(create: ((context) => EntryProvider())),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
@@ -41,8 +41,6 @@ class MyApp extends StatelessWidget {
       title: 'Auth',
       initialRoute: '/',
       theme: ThemeData(
-        // primarySwatch: Colors.blue,
-        // colorSchemeSeed: const Color(0xff6750a4),
         colorSchemeSeed: Colors.blue,
         useMaterial3: true,
       ),

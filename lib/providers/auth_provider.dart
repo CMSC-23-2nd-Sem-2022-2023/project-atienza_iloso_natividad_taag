@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cmsc23_b5l_project/models/entry.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../api/firebase_auth_api.dart';
@@ -9,6 +10,7 @@ class AuthProvider with ChangeNotifier {
   // User? userObj;
 
   User? _cUser;
+  Entry? _cUserLatestEntry;
 
   AuthProvider() {
     authService = FirebaseAuthAPI();
@@ -81,5 +83,10 @@ class AuthProvider with ChangeNotifier {
   Future<void> signOut() async {
     await authService.signOut();
     notifyListeners();
+  }
+
+  bool hasEntryToday() {
+
+    return false;
   }
 }
