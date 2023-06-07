@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cmsc23_b5l_project/providers/auth_provider.dart';
 import 'package:cmsc23_b5l_project/providers/user_provider.dart';
-import '../providers/log_provider.dart';
+import 'package:cmsc23_b5l_project/providers/log_provider.dart';
 import 'package:cmsc23_b5l_project/screens/home_page.dart';
 import 'package:cmsc23_b5l_project/screens/user_details.dart';
 import 'package:cmsc23_b5l_project/screens/add_entry_page.dart';
@@ -24,6 +24,7 @@ void main() async {
         ChangeNotifierProvider(create: ((context) => UserProvider())),
         ChangeNotifierProvider(create: ((context) => EntryProvider())),
         ChangeNotifierProvider(create: ((context) => LogProvider())),
+        ChangeNotifierProvider(create: ((context) => EntryProvider())),
       ],
       child: MyApp(),
     ),

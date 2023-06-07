@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
   String? id;
-  String userType;
+  String? userType;
   String email;
   String name;
   String username;
@@ -19,14 +19,14 @@ class User {
   String? status;
   String? usertype; 
   Timestamp? latestEntryDate;
-  Timestamp date;
+  Timestamp? date;
 
   int compareTo(User other) => name.compareTo(other.name);
 
   User({
     this.id,
     required this.email,
-    required this.userType,
+     this.userType,
     required this.name,
     required this.username,
     this.college,
@@ -40,7 +40,7 @@ class User {
     this.status,
     this.usertype,
     this.latestEntryDate,
-    required this.date,
+    this.date,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {

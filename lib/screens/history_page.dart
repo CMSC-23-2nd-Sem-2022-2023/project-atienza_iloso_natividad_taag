@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmsc23_b5l_project/models/entry.dart';
-import 'package:cmsc23_b5l_project/models/user_model.dart';
 import 'package:cmsc23_b5l_project/widgets/entry_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,26 +17,15 @@ class HistoryPage extends StatefulWidget {
 class _HistoryPageState extends State<HistoryPage> {
   @override
   Widget build(BuildContext context) {
-    // TODO : Confirm use of stack; found unnecessary at current layout.
     // TODO : Add conditional for user, admin, emonitor view
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       child: buildEntries(),
-
-      // for (Entry entry in entryList)
-      //   EntryItem(
-      //     entry: entry,
-      //     onEntryEdit: () {},
-      //     onEntryDelete: () {},
-      //   )
-      //),
-      //]
     );
   }
 
   Widget buildEntries() {
-    // Stream<QuerySnapshot> entryStream = context.watch<EntryProvider>().entries;
     Stream<QuerySnapshot> entryStream = context.watch<EntryProvider>().entries;
     return Center(
         child: Column(children: [

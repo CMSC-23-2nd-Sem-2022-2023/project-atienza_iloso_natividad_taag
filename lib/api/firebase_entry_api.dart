@@ -7,6 +7,16 @@ class FirebaseEntryAPI {
     return db.collection("entries").orderBy('date', descending: true).snapshots();
   }
 
+  // get all edit requests
+  Stream<QuerySnapshot> getAllEditRequests() {
+    return db.collection("entries").where("toEdit", isEqualTo: true).snapshots();
+  }
+
+  // get all delete requests
+  Stream<QuerySnapshot> getAllDeleteRequests() {
+    return db.collection("entries").where("toDelete", isEqualTo: true).snapshots();
+  }
+
   Future<String> addEntry(Map<String, dynamic> entry) async {
     try {
       await db.collection("entries").add(entry);

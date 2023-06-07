@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FirebaseUserAPI {
+class FirebaseLogAPI {
   static final FirebaseFirestore db = FirebaseFirestore.instance;
 
   Stream<QuerySnapshot> getAllLogs() {

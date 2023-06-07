@@ -3,12 +3,12 @@ import '../api/firebase_log_api.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LogProvider with ChangeNotifier {
-  late FirebaseUserAPI firebaseService;
+  late FirebaseLogAPI firebaseService;
   late Stream<QuerySnapshot> _logStream;
   late Stream<QuerySnapshot> _quarantinedStream;
 
   LogProvider() {
-    firebaseService = FirebaseUserAPI();
+    firebaseService = FirebaseLogAPI();
     fetchUsers();
     fetchQuarantined();
   }

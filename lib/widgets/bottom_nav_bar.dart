@@ -26,6 +26,7 @@ class MyBottomNavBar extends StatelessWidget {
               GButton(icon: Icons.home, text: 'Home'),
               GButton(icon: Icons.person_3_outlined, text: 'Profile'),
               GButton(icon: Icons.admin_panel_settings_outlined ,text: 'Admin'),
+              GButton(icon: Icons.request_page ,text: 'Requests'),
               GButton(icon: Icons.monitor ,text: 'Monitor')
             ]),
     );
