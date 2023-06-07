@@ -8,11 +8,11 @@ class FirebaseUserAPI {
   }
 
   Stream<QuerySnapshot> getQuarantined() {
-    return db.collection("users").where("category", isEqualTo: "Quarantined").snapshots();
+    return db.collection("users").where("status", isEqualTo: "Under Quarantine").snapshots();
   }
 
   Stream<QuerySnapshot> getUnderMonitoring() {
-    return db.collection("users").where("category", isEqualTo: "Under monitoring").snapshots();
+    return db.collection("users").where("status", isEqualTo: "Under Monitoring").snapshots();
   }
 
   Future<String> deleteEntry(String? id) async {
@@ -25,20 +25,12 @@ class FirebaseUserAPI {
     }
   }
 
-  Future<String> printSmth() async {
+  Future<String> updateStatus(
+      String? id, String status) async {
     try {
-      return "printtt";
-    } on FirebaseException catch (e) {
-      return "Failed with error '${e.code}: ${e.message}";
-    }
-  }
+      await db.collection("users").doc(id).update({"status": status});
 
-  Future<String> updateCategory(
-      String? id, String category) async {
-    try {
-      await db.collection("users").doc(id).update({"category": category});
-
-      return "Successfully updated category!";
+      return "Successfully updated status!";
     } on FirebaseException catch (e) {
       return "Failed with error '${e.code}: ${e.message}";
     }

@@ -17,7 +17,7 @@ class UserProvider with ChangeNotifier {
   }
 
   Stream<QuerySnapshot> get entries => _entriesStream;
-  Stream<QuerySnapshot> get quarantined => _quarantinedStream;
+  Stream<QuerySnapshot> get underquarantine => _quarantinedStream;
   Stream<QuerySnapshot> get undermonitoring => _undermonitoringStream;
 
   fetchUsers() {
@@ -36,8 +36,8 @@ class UserProvider with ChangeNotifier {
   }
 
   // edit entry in firebase
-  void updateCategory(String id, String category) async {
-    String message = await firebaseService.updateCategory(id, category);
+  void updateStatus(String id, String status) async {
+    String message = await firebaseService.updateStatus(id, status);
     print(message);
     notifyListeners();
   }

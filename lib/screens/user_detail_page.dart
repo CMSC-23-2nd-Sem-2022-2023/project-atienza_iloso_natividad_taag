@@ -12,7 +12,7 @@ class UserDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Stream<QuerySnapshot> entriesStream = context.watch<UserProvider>().quarantined;
+    Stream<QuerySnapshot> entriesStream = context.watch<UserProvider>().underquarantine;
 
     return StreamBuilder(
       stream: entriesStream, //change this based on dropdown value
@@ -99,7 +99,6 @@ class UserDetailScreen extends StatelessWidget {
             ),
           ],),
 
-
           Row(children: [
             Expanded(flex: 3,
               child: Text("Allergies", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
@@ -114,18 +113,30 @@ class UserDetailScreen extends StatelessWidget {
               child: Text("Quarantined or Under monitoring?", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
             ),
             Expanded(flex: 4,
-              child: Text("${user.category}", style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic),),
+              child: Text("${user.status}", style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic),),
             ),
           ],),
 
-          user.category == 'Quarantined' ?
-          Container() : 
+          user.status == 'Under Quarantine' ?
           Column(children: [
             Padding(padding: EdgeInsets.only(top: 20)),
             Text('Number of students quarantined: ${snapshot.data?.docs.length}'),
             ElevatedButton(
             onPressed: () {
-              context.read<UserProvider>().updateCategory(user.id!, "Quarantined");
+              context.read<UserProvider>().updateStatus(user.id!, "Cleared");
+              Navigator.pop(context);
+            },
+            child: Text('Remove student from quarantine',
+            style: TextStyle(
+              fontSize: 16)),
+          ),
+          ],) : 
+          Column(children: [
+            Padding(padding: EdgeInsets.only(top: 20)),
+            Text('Number of students quarantined: ${snapshot.data?.docs.length}'),
+            ElevatedButton(
+            onPressed: () {
+              context.read<UserProvider>().updateStatus(user.id!, "Under Quarantine");
               Navigator.pop(context);
             },
             child: Text('Add student to quarantine',
@@ -133,6 +144,31 @@ class UserDetailScreen extends StatelessWidget {
               fontSize: 16)),
           ),
           ],),
+
+          user.status == 'Under Monitoring' ?
+          Column(children: [
+            Padding(padding: EdgeInsets.only(top: 30)),
+            ElevatedButton(
+            onPressed: () {
+              context.read<UserProvider>().updateStatus(user.id!, "Cleared");
+              Navigator.pop(context);
+            },
+            child: Text('End monitoring',
+            style: TextStyle(
+              fontSize: 16)),
+            ),
+
+            Padding(padding: EdgeInsets.only(top: 10)),
+            ElevatedButton(
+            onPressed: () {
+              context.read<UserProvider>().updateStatus(user.id!, "Under Quarantine");
+              Navigator.pop(context);
+            },
+            child: Text('Move to quarantine',
+            style: TextStyle(
+              fontSize: 16)),
+            ),
+          ],) : Container(),
 
           Padding(padding: EdgeInsets.only(top: 20)),
           Center(child: Text('Elevate user to:'),),

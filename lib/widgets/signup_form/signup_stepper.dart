@@ -351,7 +351,7 @@ class _SignUpStepperState extends State<SignUpStepper> {
               studentNumController.text,
               illnesses,
               allergiesController.text,
-              "safe",
+              "Cleared",
               "default",
               formattedDate);
 

@@ -11,7 +11,7 @@ class User {
   String studentnum;
   List<dynamic>? illnesses;
   String? allergies;
-  String? category;
+  String? status;
   String? usertype; 
   String? date;
 
@@ -27,7 +27,7 @@ class User {
     required this.studentnum,
     this.illnesses,
     this.allergies,
-    this.category,
+    this.status,
     this.usertype,
     this.date
   });
@@ -43,7 +43,7 @@ class User {
         studentnum: json['studentnum'],
         illnesses: json['illnesses'],
         allergies: json['allergies'],
-        category: json['category'],
+        status: json['status'],
         usertype: json['usertype'],
         date: json['date']
         );
@@ -65,28 +65,9 @@ class User {
       'studentnum': user.studentnum,
       'illnesses': user.illnesses,
       'allergies': user.allergies,
-      'category': user.category,
+      'status': user.status,
       'usertype': user.usertype,
       'date': user.date
     };
-  }
-
-  static List<User> userList() {
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
-    return [
-      User(
-        email: "annatividad@up.edu.ph",
-        name: "Aira Nicole",
-        username: "airanatividad",
-        college: "CAS",
-        course: "BSCS",
-        studentnum: "2021-12345",
-        illnesses: [],
-        allergies: "None",
-        category: "safe",
-        usertype: "default",
-        date: formattedDate),
-    ];
   }
 }

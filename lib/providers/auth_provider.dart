@@ -34,11 +34,11 @@ class AuthProvider with ChangeNotifier {
       String studentnum,
       List<String> illnesses,
       String allergies,
-      String category,
+      String status,
       String usertype,
       String date) async {
     await authService.addUser(
-        email, name, username, college, course, studentnum, illnesses, allergies, category, usertype, date);
+        email, name, username, college, course, studentnum, illnesses, allergies, status, usertype, date);
     //use the function in firebase_auth_api
     notifyListeners();
   }

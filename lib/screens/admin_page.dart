@@ -15,19 +15,17 @@ class AdminPage extends StatefulWidget {
 }
 
 class _AdminPageState extends State<AdminPage> {
-  final userList = User.userList();
-
   static final List<String> _dropdownOptions = [
-    "Default",
-    "Quarantined",
-    "Under monitoring"
+    "All",
+    "Under Quarantine",
+    "Under Monitoring"
   ];
 
   Map<String, dynamic> formValues = {
     'dropdownValue': _dropdownOptions.first,
   };
 
-  void categorySelection(String? value) {
+  void statusSelection(String? value) {
     setState(() {
       formValues["dropdownValue"] = value;
     });
@@ -38,9 +36,9 @@ class _AdminPageState extends State<AdminPage> {
   @override
   Widget build(BuildContext context) {
     Stream<QuerySnapshot>? entriesStream;
-    if (formValues["dropdownValue"] == "Quarantined") {
-      entriesStream = context.watch<UserProvider>().quarantined;
-    } else if (formValues["dropdownValue"] == "Under monitoring") {
+    if (formValues["dropdownValue"] == "Under Quarantine") {
+      entriesStream = context.watch<UserProvider>().underquarantine;
+    } else if (formValues["dropdownValue"] == "Under Monitoring") {
       entriesStream = context.watch<UserProvider>().undermonitoring;
     } else {
       entriesStream = context.watch<UserProvider>().entries;
@@ -83,7 +81,7 @@ class _AdminPageState extends State<AdminPage> {
                     flex: 11,
                     child: DropdownButtonFormField<String>(
                     value: _dropdownOptions.first,
-                    onChanged: categorySelection,
+                    onChanged: statusSelection,
                     items: _dropdownOptions.map<DropdownMenuItem<String>>(
                     (String value) {
                         return DropdownMenuItem<String>(
@@ -124,9 +122,6 @@ class _AdminPageState extends State<AdminPage> {
                           builder: (entry) => 
                             ListTile(
                               contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                              onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => UserDetailScreen(user: entry)));
-                              },
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                               tileColor: Colors.white,
                               title: Text(entry.name, style: TextStyle(fontSize: 16)),
