@@ -16,8 +16,6 @@ class AdminPage extends StatefulWidget {
 }
 
 class _AdminPageState extends State<AdminPage> {
-  final userList = User.userList();
-
   @override
   Widget build(BuildContext context) {
     Stream<QuerySnapshot> entriesStream = context.watch<UserProvider>().users;

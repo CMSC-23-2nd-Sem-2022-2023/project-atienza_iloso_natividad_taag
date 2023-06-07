@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class User {
   String? id;
   String userType;
@@ -11,10 +13,8 @@ class User {
   String? studentnum;
   List<dynamic>? illnesses;
   String? allergies;
-  bool? toEdit;
-  bool? toDelete;
-  String date;
-
+  Timestamp? latestEntryDate;
+  Timestamp date;
 
   User({
     this.id,
@@ -27,8 +27,7 @@ class User {
     this.studentnum,
     this.illnesses,
     this.allergies,
-    this.toEdit,
-    this.toDelete,
+    this.latestEntryDate,
     required this.date,
   });
 
@@ -44,9 +43,8 @@ class User {
         studentnum: json['studentnum'],
         illnesses: json['illnesses'],
         allergies: json['allergies'],
-        toEdit: json['toEdit'],
-        toDelete: json['toDelete'],
-        date: json['date']
+        latestEntryDate: json['latestEntryDate'],
+        date: json['date'],
         );
   }
 
@@ -67,27 +65,9 @@ class User {
       'studentnum': user.studentnum,
       'illnesses': user.illnesses,
       'allergies': user.allergies,
-      'toEdit': user.toEdit,
-      'toDelete': user.toDelete,
-      'date': user.date
+      'latestEntryDate': user.latestEntryDate,
+      'date': user.date,
     };
   }
 
-  static List<User> userList() {
-    return [
-      User(
-        userType: 'admin',
-        email: "annatividad@up.edu.ph",
-        name: "Aira Nicole",
-        username: "airanatividad",
-        college: "CAS",
-        course: "BSCS",
-        studentnum: "2021-12345",
-        illnesses: [],
-        allergies: "None",
-        toEdit: false,
-        toDelete: false,
-        date: ""),
-    ];
-  }
 }
