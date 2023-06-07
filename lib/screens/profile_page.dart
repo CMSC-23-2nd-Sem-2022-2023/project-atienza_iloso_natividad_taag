@@ -1,15 +1,16 @@
-import 'package:cmsc23_b5l_project/models/entry.dart';
-import 'package:cmsc23_b5l_project/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/entry_provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+
+import 'package:cmsc23_b5l_project/models/entry.dart';
+import 'package:cmsc23_b5l_project/providers/auth_provider.dart';
+import '../providers/entry_provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  _ProfilePageState createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
@@ -17,84 +18,80 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-      child: buildQR(),
+      child: _buildQR(),
     );
   }
 
-  Widget buildQR() {
+  Widget _buildQR() {
     final entryProvider = Provider.of<EntryProvider>(context);
-    String uid = context.watch<AuthProvider>().getCurrentUser.uid;
+    final uid = context.watch<AuthProvider>().getCurrentUser.uid;
 
     return FutureBuilder<Entry?>(
       future: entryProvider.getLatestEntryForUid(uid),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         } else if (snapshot.hasData) {
-          Entry? entry = snapshot.data;
-          if (entry != null) {
-            DateTime date = entry.date.toDate();
-            DateTime today = DateTime.now();
-            bool isToday = date.year == today.year &&
-                date.month == today.month &&
-                date.day == today.day;
-            if (isToday) {
-              // Health entry is valid. Evaluate student for building pass generation.
-              bool isWithSymptoms = false;
-              bool isWithContact = false;
-              entry.illnesses.forEach((key, value) {
-                if (value == true) {
-                  if (key == "isExposed") {
-                    isWithContact = true;
-                  }
-                  isWithSymptoms = true;
-                }
-                print('Key: $key, Value: $value');
-              });
-              if (isWithSymptoms == true && isWithContact == true) {
-                return const Center(
-                  child: Text(
-                      "Cannot generate building pass. You are with symptoms and with contact."),
-                );
-              } else if (isWithSymptoms == true) {
-                return const Center(
-                  child: Text(
-                      "Cannot generate building pass. You are with symptoms."),
-                );
-              } else if (isWithContact == true) {
-                return const Center(
-                  child: Text(
-                      "Cannot generate building pass. You are with contact."),
-                );
-              } else {
-                return Center(
-                  child: Column(
-                    children: [
-                      const Padding(
-                          padding: EdgeInsets.only(top: 10, bottom: 20),
-                          child: Text(
-                            'Building Pass',
-                            style: TextStyle(
-                                fontSize: 50, fontWeight: FontWeight.w500),
-                          )),
-                      QrImageView(
-                        data: entry.uid,
-                        version: QrVersions.auto,
-                        size: 200.0,
-                      ),
-                    ],
+          final entry = snapshot.data!;
+          final isValidEntry = _isTodayValidEntry(entry);
+
+          if (isValidEntry) {
+            return Center(
+              child: Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(top: 10, bottom: 20),
+                    child: Text(
+                      'Building Pass',
+                      style:
+                          TextStyle(fontSize: 50, fontWeight: FontWeight.w500),
+                    ),
                   ),
-                );
-              }
-            } else {
-              return const Center(
-                  child: Text("To generate QR, add a health entry for today"));
-            }
+                  QrImageView(
+                    data: entry.uid,
+                    version: QrVersions.auto,
+                    size: 200.0,
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return Center(
+              child: Text(
+                _getInvalidEntryMessage(entry),
+              ),
+            );
           }
         }
-        return const Center(
-            child: Text("To generate QR, add a health entry for today"));
+
+        return Center(
+          child: const Text("To generate QR, add a health entry for today"),
+        );
       },
     );
+  }
+
+  bool _isTodayValidEntry(Entry entry) {
+    final date = entry.date.toDate();
+    final today = DateTime.now();
+
+    return date.year == today.year &&
+        date.month == today.month &&
+        date.day == today.day;
+  }
+
+  String _getInvalidEntryMessage(Entry entry) {
+    final isWithSymptoms = entry.illnesses.containsValue(true);
+    final isWithContact = entry.illnesses['isExposed'] == true;
+
+    if (isWithSymptoms && isWithContact) {
+      return "Cannot generate building pass. You are with symptoms and with contact.";
+    } else if (isWithSymptoms) {
+      return "Cannot generate building pass. You are with symptoms.";
+    } else if (isWithContact) {
+      return "Cannot generate building pass. You are with contact.";
+    } else {
+      return "To generate QR, add a health entry for today";
+    }
   }
 }
