@@ -26,21 +26,21 @@ class LogProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateStatus(String id, String status) async {
-    String message = await firebaseService.updateStatus(id, status);
+  void updateLog(String id, String location, String status, String studentnum) async {
+    String message = await firebaseService.updateLog(id, location, status, studentnum);
     print(message);
     notifyListeners();
   }
 
-  void updateLocation(String id, String location) async {
-    String message = await firebaseService.updateLocation(id, location);
-    print(message);
-    notifyListeners();
-  }
+  // void updateLocation(String id, String location) async {
+  //   String message = await firebaseService.updateLocation(id, location);
+  //   print(message);
+  //   notifyListeners();
+  // }
 
-  void updateStudentNo(String id, String studentnum) async {
-    String message = await firebaseService.updateStudentNo(id, studentnum);
-    print(message);
-    notifyListeners();
-  }
+  // void updateStudentNo(String id, String studentnum) async {
+  //   String message = await firebaseService.updateStudentNo(id, studentnum);
+  //   print(message);
+  //   notifyListeners();
+  // }
 }

@@ -3,7 +3,7 @@ import 'package:cmsc23_b5l_project/providers/log_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:provider/provider.dart";
-import 'user_detail_page.dart';
+import 'log_detail_page.dart';
 import 'package:search_page/search_page.dart';
 
 
@@ -65,16 +65,17 @@ class _EntranceMonitorPageState extends State<EntranceMonitorPage> {
                           onQueryUpdate: print,
                           items: userSearchItem,
                           searchLabel: 'Search students',
-                          suggestion: const Center(
-                            child: Text('Filter students by date, course, college or student number'),
-                          ),
+                          suggestion: const 
+                          Padding(
+                            padding: EdgeInsets.all(30),
+                            child: Center(
+                            child: Text('Filter students by name, course, college, student number, status, location, and date'),
+                          )),
                           failure: const Center(
                             child: Text('No person found :('),
                           ),
                           filter: (log) => [
                             log.name,
-                            log.email,
-                            log.username,
                             log.college,
                             log.course,
                             log.studentnum,
@@ -134,7 +135,7 @@ class _EntranceMonitorPageState extends State<EntranceMonitorPage> {
                     child: ListTile(
                       contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                       onTap: (){
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) => UserDetailScreen(user: log)));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => LogDetailScreen(log: log, type: 'add')));
                       },
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                       tileColor: Colors.white,
@@ -158,9 +159,8 @@ class _EntranceMonitorPageState extends State<EntranceMonitorPage> {
                               color: Colors.white,
                               iconSize: 18,
                               icon: Icon(Icons.edit_outlined),
-                              onPressed:(){
-                                // print('click on delete icon');
-                                // onDeleteItem(todo.id);
+                              onPressed:(){ //widget.log.name
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => LogDetailScreen(log: log, type: 'edit')));
                               }
                             ),
                           
