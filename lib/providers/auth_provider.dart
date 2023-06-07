@@ -16,6 +16,7 @@ class AuthProvider with ChangeNotifier {
 
   Stream<User?> get userStream => _uStream;
   User get getCurrentUser => _cUser!;
+  String get getCurrentUserName => _cUser!.displayName ?? '';
 
   void fetchAuthentication() {
     _uStream = authService.getUser();
@@ -37,8 +38,8 @@ class AuthProvider with ChangeNotifier {
       String studentnum,
       List<String> illnesses,
       String allergies) async {
-    await authService.addUser(
-        email, name, username, college, course, studentnum, illnesses, allergies);
+    await authService.addUser(email, name, username, college, course,
+        studentnum, illnesses, allergies);
     //use the function in firebase_auth_api
     notifyListeners();
   }
@@ -60,7 +61,6 @@ class AuthProvider with ChangeNotifier {
     _cUser = user;
     // notifyListeners();
   }
-
 
   Future<void> signOut() async {
     await authService.signOut();
