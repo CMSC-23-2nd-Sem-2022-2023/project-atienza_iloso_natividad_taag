@@ -3,7 +3,6 @@ import '../api/firebase_entry_api.dart';
 import '../models/entry.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class EntryProvider with ChangeNotifier {
   late FirebaseEntryAPI firebaseService;
   late Stream<QuerySnapshot> _entriesStream;
@@ -18,7 +17,7 @@ class EntryProvider with ChangeNotifier {
     fetchEditRequests();
     fetchDeleteRequests();
   }
-  
+
   Stream<QuerySnapshot> get entries => _entriesStream;
   Stream<QuerySnapshot> get editRequests => _requestEditStream;
   Stream<QuerySnapshot> get deleteRequests => _requestDeleteStream;
@@ -77,19 +76,25 @@ class EntryProvider with ChangeNotifier {
     _entryCount = count;
   }
 
-  Future<Entry?> get entryLatest async {
+  Future<Entry?> getLatestEntryForUid(String uid) async {
     final snapshot = await firebaseService.getAllEntries().first;
     final entries = snapshot.docs;
-    final latestEntry = entries.isNotEmpty
-        ? Entry.fromJson(entries.first.data() as Map<String, dynamic>)
-        : null;
+    Entry? latestEntry;
+
+    for (var doc in entries) {
+      final entry = Entry.fromJson(doc.data() as Map<String, dynamic>);
+      if (entry.uid == uid) {
+        if (latestEntry == null || entry.date.compareTo(latestEntry.date) > 0) {
+          latestEntry = entry;
+        }
+      }
+    }
+
     return latestEntry;
   }
 
   bool hasEntryToday() {
     var out = false;
-
-    
 
     return out;
   }
