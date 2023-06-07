@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
@@ -333,20 +334,22 @@ class _SignUpStepperState extends State<SignUpStepper> {
             v ? illnesses.add(k) : 0;
           });
 
-          await context
-              .read<AuthProvider>()
-              .signUp(nameController.text, emailController.text, passwordController.text);
-
-          await context.read<AuthProvider>().addUser(
-              //add user when signing up
-              emailController.text,
+          String result = await context.read<AuthProvider>().signUp(
               nameController.text,
-              usernameController.text,
-              collegeController.text,
-              courseController.text,
-              studentNumController.text,
-              illnesses,
-              allergiesController.text);
+              emailController.text,
+              passwordController.text);
+
+          if (result == 'Success!') {
+            await context.read<AuthProvider>().addUser(
+                email: emailController.text,
+                name: nameController.text,
+                username: usernameController.text,
+                illnesses: illnesses,
+                allergies: allergiesController.text,
+                status: 'cleared',
+                usertype: 'student',
+                date: Timestamp.now());
+          }
 
           if (context.mounted) Navigator.pop(context);
         } else {

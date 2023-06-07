@@ -92,10 +92,13 @@ class _HistoryPageState extends State<HistoryPage> {
           }
 
           bool headerRendered = false;
+
           return ListView.builder(
+            // itemCount: entries.length + 1,
             itemCount: userEntries.length + 1,
             itemBuilder: ((context, index) {
               final adjustedIndex = index - 1;
+              
               if (headerRendered == false) {
                 headerRendered = true;
                 return Column(
@@ -112,9 +115,9 @@ class _HistoryPageState extends State<HistoryPage> {
                   ],
                 );
               } else {
-                final entry = Entry.fromJson(snapshot.data?.docs[adjustedIndex]
+                final entry = Entry.fromJson(userEntries[adjustedIndex]
                     .data() as Map<String, dynamic>);
-                entry.id = snapshot.data?.docs[adjustedIndex].id;
+                entry.id = userEntries[adjustedIndex].id;
 
                 return EntryItem(
                   key: Key(entry.id!),

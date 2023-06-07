@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class User {
   String? id;
   String userType;
@@ -9,12 +11,17 @@ class User {
   String? college;
   String? course;
   String? studentnum;
+  String? employeeno;
+  String? position;
+  String? homeunit;
   List<dynamic>? illnesses;
   String? allergies;
-  bool? toEdit;
-  bool? toDelete;
-  String date;
+  String? status;
+  String? usertype; 
+  Timestamp? latestEntryDate;
+  Timestamp date;
 
+  int compareTo(User other) => name.compareTo(other.name);
 
   User({
     this.id,
@@ -25,10 +32,14 @@ class User {
     this.college,
     this.course,
     this.studentnum,
+    this.employeeno,
+    this.position,
+    this.homeunit,
     this.illnesses,
     this.allergies,
-    this.toEdit,
-    this.toDelete,
+    this.status,
+    this.usertype,
+    this.latestEntryDate,
     required this.date,
   });
 
@@ -42,11 +53,15 @@ class User {
         college: json['college'],
         course: json['course'],
         studentnum: json['studentnum'],
+        employeeno: json['employeeno'],
+        position: json['position'],
+        homeunit: json['homeunit'],
         illnesses: json['illnesses'],
         allergies: json['allergies'],
-        toEdit: json['toEdit'],
-        toDelete: json['toDelete'],
-        date: json['date']
+        status: json['status'],
+        usertype: json['usertype'],
+        latestEntryDate: json['latestEntryDate'],
+        date: json['date'],
         );
   }
 
@@ -65,29 +80,15 @@ class User {
       'college': user.college,
       'course': user.course,
       'studentnum': user.studentnum,
+      'employeeno': user.employeeno,
+      'position': user.position,
+      'homeunit': user.homeunit,
       'illnesses': user.illnesses,
       'allergies': user.allergies,
-      'toEdit': user.toEdit,
-      'toDelete': user.toDelete,
-      'date': user.date
+      'status': user.status,
+      'usertype': user.usertype,
+      'latestEntryDate': user.latestEntryDate,
+      'date': user.date,
     };
-  }
-
-  static List<User> userList() {
-    return [
-      User(
-        userType: 'admin',
-        email: "annatividad@up.edu.ph",
-        name: "Aira Nicole",
-        username: "airanatividad",
-        college: "CAS",
-        course: "BSCS",
-        studentnum: "2021-12345",
-        illnesses: [],
-        allergies: "None",
-        toEdit: false,
-        toDelete: false,
-        date: ""),
-    ];
   }
 }

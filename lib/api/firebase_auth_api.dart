@@ -28,10 +28,9 @@ class FirebaseAuthAPI {
     }
   }
 
-  Future<void> signUp(String name, String email, String password) async {
-    UserCredential credential;
+  Future<String> signUp(String name, String email, String password) async {
     try {
-      credential = await auth.createUserWithEmailAndPassword(
+      UserCredential result = await auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -39,38 +38,45 @@ class FirebaseAuthAPI {
       //let's print the object returned by signInWithEmailAndPassword
       //you can use this object to get the user's id, email, etc.\
 
-      User? user = credential.user;
+      User? user = result.user;
       if (user != null) {
         // Set display name and email for the user
-        await user.updateDisplayName(name);
+        user.updateDisplayName(name);
         user = auth.currentUser;
-        // Print the updated user object
-        print(user);
+        auth.signOut();
+
+        // BAND-AID SOLUTION
       }
 
-      print(credential);
+      return ('Success!');
     } on FirebaseAuthException catch (e) {
       //possible to return something more useful
       //than just print an error message to improve UI/UX
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
+        return ('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+        return ('The account already exists for that email.');
       }
     } catch (e) {
       print(e);
+      // return('Fail!');
     }
+    return ('Fail!');
   }
 
-  Future<String> addUser(
-      String email,
-      String name,
-      String username,
-      String college,
-      String course,
-      String studentnum,
-      List<String> illnesses,
-      String allergies) async {
+  Future<String> addUser({
+    required String email,
+    required String name,
+    required String username,
+    String? college,
+    String? course,
+    String? studentnum,
+    List<String>? illnesses,
+    String? allergies,
+    required String status,
+    required String usertype,
+    required Timestamp date,
+  }) async {
     try {
       await db.collection("users").add({
         'email': email,
@@ -80,7 +86,10 @@ class FirebaseAuthAPI {
         'course': course,
         'studentnum': studentnum,
         'illnesses': illnesses,
-        'allergies': allergies
+        'allergies': allergies,
+        'status': status,
+        'usertype': usertype,
+        'date': date
       });
 
       return "Successfully added user!";

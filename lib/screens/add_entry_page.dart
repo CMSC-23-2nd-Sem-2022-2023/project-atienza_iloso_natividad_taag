@@ -3,6 +3,8 @@
 //  Add Entry Page
 //    When add entry button is clicked, User is routed here to answer a form.
 
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmsc23_b5l_project/providers/entry_provider.dart';
 import 'package:flutter/material.dart';
@@ -32,14 +34,14 @@ class _AddEntryPageState extends State<AddEntryPage> {
     "Diarrhea": false,
     "Loss of taste": false,
     "Loss of smell": false,
-    "None of the above": false,
     "isExposed": false,
   };
 
   @override
   Widget build(BuildContext context) {
     String uid = context.watch<AuthProvider>().getCurrentUser.uid;
-    int id = context.watch<EntryProvider>().entryCount! + 1;
+    Random rng = Random(42);
+    int id = Timestamp.now().seconds + rng.nextInt(420);
 
     final addEntryButton = SizedBox(
       width: 300.0,
@@ -50,12 +52,37 @@ class _AddEntryPageState extends State<AddEntryPage> {
           // update firebase
           var tempMap = addEntryMap;
           tempMap.remove("None of the above");
-          Entry temp = Entry(id: id.toString(), date: Timestamp.now(), illnesses: tempMap, uid: uid);
+          Entry temp = Entry(
+              id: id.toString(),
+              date: Timestamp.now(),
+              illnesses: tempMap,
+              uid: uid);
 
           context.read<EntryProvider>().addEntry(temp);
           Navigator.of(context).pop();
         },
-        child: const Text('Add Entry', style: TextStyle(color: Color.fromARGB(255, 75, 75, 75))),
+        child: const Text('Add Entry',
+            // style: TextStyle(color: Color.fromARGB(255, 75, 75, 75))
+            ),
+      ),
+    );
+
+    final resetButton = SizedBox(
+      width: 300.0,
+      height: 40.0,
+      child: ElevatedButton(
+        // style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(Color.fromARGB(255, 201, 130, 130))),
+        onPressed: () async {
+          setState(() {
+            addEntryMap[addEntryMap.keys.elementAt(10)] = false;
+            for (int i = 0; i < (addEntryMap.length - 2); i++) {
+              addEntryMap[addEntryMap.keys.elementAt(i)] = false;
+            }
+          });
+        },
+        child: const Text('Reset',
+            style: TextStyle(color: Color.fromARGB(255, 53, 0, 0))),
+            // style: TextStyle(color: Color.fromARGB(255, 53, 0, 0))),
       ),
     );
 
@@ -66,7 +93,9 @@ class _AddEntryPageState extends State<AddEntryPage> {
         onPressed: () async {
           Navigator.pop(context);
         },
-        child: const Text('Back', style: TextStyle(color: Color.fromARGB(255, 75, 75, 75))),
+        child: const Text('Back',
+            style: TextStyle(color: Color.fromARGB(255, 75, 75, 75))
+            ),
       ),
     );
 
@@ -86,7 +115,7 @@ class _AddEntryPageState extends State<AddEntryPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Padding(
-                    padding: EdgeInsets.fromLTRB(0, 28, 0, 8),
+                    padding: EdgeInsets.fromLTRB(0, 9, 0, 8),
                     child: Text(
                       "Symptoms",
                       textAlign: TextAlign.center,
@@ -215,25 +244,12 @@ class _AddEntryPageState extends State<AddEntryPage> {
                             });
                           },
                         ),
-                        SwitchListTile(
-                          title: Text(addEntryMap.keys.elementAt(10)),
-                          value: addEntryMap[
-                              addEntryMap.keys.elementAt(10)], //gets value
-                          onChanged: (bool? value) {
-                            setState(() {
-                              addEntryMap[addEntryMap.keys.elementAt(10)] =
-                                  value!;
-                              for (int i = 0;
-                                  i < (addEntryMap.length - 2);
-                                  i++) {
-                                addEntryMap[addEntryMap.keys.elementAt(i)] =
-                                    false;
-                              }
-                            });
-                          },
-                        ),
                         const SizedBox(
-                          height: 10,
+                          height: 9,
+                        ),
+                        resetButton,
+                        const SizedBox(
+                          height: 28,
                         ),
                         const Text(
                           "Exposure",
@@ -253,7 +269,7 @@ class _AddEntryPageState extends State<AddEntryPage> {
                     ),
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
                   addEntryButton,
                   const SizedBox(

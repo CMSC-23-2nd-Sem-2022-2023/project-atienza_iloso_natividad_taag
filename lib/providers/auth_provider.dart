@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../api/firebase_auth_api.dart';
@@ -24,22 +25,37 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> signUp(String name, String email, String password) async {
-    await authService.signUp(name, email, password);
+  Future<String> signUp(String name, String email, String password) async {
+    String result = await authService.signUp(name, email, password);
     notifyListeners();
+    return result;
   }
 
-  Future<void> addUser(
-      String email,
-      String name,
-      String username,
-      String college,
-      String course,
-      String studentnum,
-      List<String> illnesses,
-      String allergies) async {
-    await authService.addUser(email, name, username, college, course,
-        studentnum, illnesses, allergies);
+  Future<void> addUser({
+    required String email,
+    required String name,
+    required String username,
+    String? college,
+    String? course,
+    String? studentnum,
+    List<String>? illnesses,
+    String? allergies,
+    required String status,
+    required String usertype,
+    required Timestamp date,
+  }) async {
+    await authService.addUser(
+        email: email,
+        name: name,
+        username: username,
+        college: college,
+        course: course,
+        studentnum: studentnum,
+        illnesses: illnesses,
+        allergies: allergies,
+        status: status,
+        usertype: usertype,
+        date: date);
     //use the function in firebase_auth_api
     notifyListeners();
   }

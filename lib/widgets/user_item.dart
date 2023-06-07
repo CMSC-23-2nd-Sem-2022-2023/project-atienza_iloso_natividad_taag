@@ -1,6 +1,4 @@
 import 'package:cmsc23_b5l_project/models/user_model.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 
 class UserItem extends StatelessWidget {

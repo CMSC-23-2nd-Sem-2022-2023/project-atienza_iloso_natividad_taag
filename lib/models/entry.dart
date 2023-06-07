@@ -48,3 +48,54 @@ class Entry{
     };
   }
 }
+
+class EntryEditRequest{
+  String? id;
+  String? entryRefId;
+  Timestamp date;
+  String uid;
+  Map<String, dynamic> illnesses;
+  bool? toEdit;
+  bool? toDelete;
+
+  EntryEditRequest(
+    {
+      this.id,
+      this.entryRefId,
+      required this.date,
+      required this.uid,
+      required this.illnesses,
+      this.toEdit = false,
+      this.toDelete = false,
+    }
+  );
+
+  factory EntryEditRequest.fromJson(Map<String, dynamic> json) {
+    return EntryEditRequest(
+        id: json['id'],
+        entryRefId: json['entryRefId'],
+        date: json['date'],
+        uid: json['uid'],
+        illnesses: json['illnesses'],
+        toEdit: json['toEdit'],
+        toDelete: json['toDelete'],
+        );
+  }
+
+  static List<EntryEditRequest> fromJsonArray(String jsonData) {
+    final Iterable<dynamic> data = jsonDecode(jsonData);
+    return data.map<EntryEditRequest>((dynamic d) => EntryEditRequest.fromJson(d)).toList();
+  }
+
+  Map<String, dynamic> toJson(EntryEditRequest entry) {
+    return {
+      'id': entry.id,
+      'entryRefId': entry.entryRefId,
+      'date': entry.date,
+      'uid': entry.uid,
+      'illnesses': entry.illnesses,
+      'toEdit': entry.toEdit,
+      'toDelete': entry.toDelete,
+    };
+  }
+}
