@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import '../providers/user_provider.dart';
 import '../providers/log_provider.dart';
+import '../providers/entry_provider.dart';
 import 'screens/home_page.dart';
 import 'screens/user_details.dart';
 import '../screens/login.dart';
@@ -21,6 +22,7 @@ void main() async {
         ChangeNotifierProvider(create: ((context) => AuthProvider())),
         ChangeNotifierProvider(create: ((context) => UserProvider())),
         ChangeNotifierProvider(create: ((context) => LogProvider())),
+        ChangeNotifierProvider(create: ((context) => EntryProvider())),
       ],
       child: MyApp(),
     ),

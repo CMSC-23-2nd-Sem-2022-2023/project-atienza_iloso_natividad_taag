@@ -7,14 +7,14 @@ class User {
   String email;
   String name;
   String username;
-  String college;
-  String course;
+  String? college;
+  String? course;
   String studentnum;
   List<dynamic>? illnesses;
   String? allergies;
   String? status;
   String? usertype; 
-  Timestamp? date;
+  Timestamp date;
 
   int compareTo(User other) => name.compareTo(other.name);
 
@@ -30,7 +30,7 @@ class User {
     this.allergies,
     this.status,
     this.usertype,
-    this.date
+    required this.date
   });
 
   factory User.fromJson(Map<String, dynamic> json) {

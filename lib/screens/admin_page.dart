@@ -118,7 +118,7 @@ class _AdminPageState extends State<AdminPage> {
                             entry.college,
                             entry.course,
                             entry.studentnum,
-                            formatter.format(DateTime.fromMillisecondsSinceEpoch(entry.date!.seconds * 1000))
+                            formatter.format(DateTime.fromMillisecondsSinceEpoch(entry.date.seconds * 1000))
                           ],
                           sort: (a, b) => a.compareTo(b),
                           builder: (entry) => 
@@ -136,7 +136,7 @@ class _AdminPageState extends State<AdminPage> {
                               children: [
                                 Text(entry.studentnum),
                                 Text('${entry.college} - ${entry.course}'),
-                                Text('${formatter.format(DateTime.fromMillisecondsSinceEpoch(entry.date!.seconds * 1000))}')
+                                Text('${formatter.format(DateTime.fromMillisecondsSinceEpoch(entry.date.seconds * 1000))}')
                               ],
                             ),
                             )

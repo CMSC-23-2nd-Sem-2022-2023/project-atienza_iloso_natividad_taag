@@ -31,14 +31,14 @@ return Container(
         // leading: Icon( //checkbox
         //   todo.isDone? Icons.check_box:Icons.check_box_outline_blank, 
         //   color: tdBlue),
-        title: Text( //text
-          entry.date!, 
-          style: TextStyle(
-            fontSize: 16, 
-            // color: tdBlack, 
-            // decoration: todo.isDone? TextDecoration.lineThrough:null,
-          )
-        ),
+        // title: Text( //text
+        //   entry.date!, 
+        //   style: TextStyle(
+        //     fontSize: 16, 
+        //     // color: tdBlack, 
+        //     // decoration: todo.isDone? TextDecoration.lineThrough:null,
+        //   )
+        // ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

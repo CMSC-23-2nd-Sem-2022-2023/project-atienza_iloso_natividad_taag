@@ -83,7 +83,7 @@ class _EntranceMonitorPageState extends State<EntranceMonitorPage> {
                             log.studentnum,
                             log.status,
                             log.location,
-                            formatter.format(DateTime.fromMillisecondsSinceEpoch(log.date!.seconds * 1000))
+                            formatter.format(DateTime.fromMillisecondsSinceEpoch(log.date.seconds * 1000))
                           ],
                           sort: (a, b) => a.compareTo(b),
                           builder: (entry) => 

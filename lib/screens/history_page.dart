@@ -11,7 +11,7 @@ class HistoryPage extends StatefulWidget {
 }
 
 class _HistoryPageState extends State<HistoryPage> {
-    final entryList = Entry.entryList();
+    //final entryList = Entry.entryList();
 
   @override
   Widget build(BuildContext context) { // TODO : Confirm use of stack; found unnecessary at current layout.
@@ -31,12 +31,12 @@ class _HistoryPageState extends State<HistoryPage> {
                         child: Text('Entries', style: TextStyle(fontSize:50, fontWeight: FontWeight.w500),)
                       ),
                       
-                      for(Entry entry in entryList)
-                        EntryItem(
-                          entry: entry, 
-                          onEntryEdit: (){}, 
-                          onEntryDelete: (){},
-                        )
+                      // for(Entry entry in entryList)
+                      //   EntryItem(
+                      //     entry: entry, 
+                      //     onEntryEdit: (){}, 
+                      //     onEntryDelete: (){},
+                      //   )
                     ],
                   ),
                 ),
