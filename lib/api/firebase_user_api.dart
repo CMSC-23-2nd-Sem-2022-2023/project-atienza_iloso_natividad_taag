@@ -7,6 +7,14 @@ class FirebaseUserAPI {
     return db.collection("users").snapshots();
   }
 
+  Stream<QuerySnapshot> getQuarantined() {
+    return db.collection("users").where("status", isEqualTo: "Under Quarantine").snapshots();
+  }
+
+  Stream<QuerySnapshot> getUnderMonitoring() {
+    return db.collection("users").where("status", isEqualTo: "Under Monitoring").snapshots();
+  }
+
   Future<String> deleteEntry(String? id) async {
     try {
       await db.collection("users").doc(id).delete();
@@ -17,30 +25,26 @@ class FirebaseUserAPI {
     }
   }
 
-  Future<String> printSmth() async {
+  Future<String> updateStatus(
+      String? id, String status) async {
     try {
-      return "printtt";
+      await db.collection("users").doc(id).update({"status": status});
+
+      return "Successfully updated status!";
     } on FirebaseException catch (e) {
       return "Failed with error '${e.code}: ${e.message}";
     }
   }
 
-  Future<String> updateEditRequest(
-      String? id, bool toEdit) async {
+  Future<String> updateUserType(String? id, String email, String name, String usertype) async {
     try {
-      await db.collection("users").doc(id).update({"toEdit": toEdit});
+      // add user to admin/monitor collection
+      // add only email, name
+      await db.collection("admin_emonitors").add({'email': email, 'name': name, 'usertype': usertype});
 
-      return "Successfully updated student request!";
-    } on FirebaseException catch (e) {
-      return "Failed with error '${e.code}: ${e.message}";
-    }
-  }
-
-  Future<String> updateDeleteRequest(String? id, bool toDelete) async {
-    try {
-      await db.collection("users").doc(id).update({"toDelete": toDelete});
-
-      return "Successfully updated student request!";
+      // delete user from users collection
+      await db.collection("users").doc(id).delete();
+      return "Successfully updated user type!";
     } on FirebaseException catch (e) {
       return "Failed with error '${e.code}: ${e.message}";
     }

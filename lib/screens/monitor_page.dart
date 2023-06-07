@@ -1,53 +1,30 @@
-import 'package:cmsc23_b5l_project/models/user_model.dart';
-import 'package:cmsc23_b5l_project/providers/user_provider.dart';
+import 'package:cmsc23_b5l_project/models/log_model.dart';
+import 'package:cmsc23_b5l_project/providers/log_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import "package:provider/provider.dart";
-import 'user_detail_page.dart';
+import 'log_detail_page.dart';
 import 'package:search_page/search_page.dart';
 
 
-class AdminPage extends StatefulWidget {
-  const AdminPage({super.key});
+class EntranceMonitorPage extends StatefulWidget {
+  const EntranceMonitorPage({super.key});
 
   @override
-  State<AdminPage> createState() => _AdminPageState();
+  State<EntranceMonitorPage> createState() => _EntranceMonitorPageState();
 }
 
-class _AdminPageState extends State<AdminPage> {
-  static final List<String> _dropdownOptions = [
-    "All",
-    "Under Quarantine",
-    "Under Monitoring"
-  ];
-
-  Map<String, dynamic> formValues = {
-    'dropdownValue': _dropdownOptions.first,
-  };
-
-  void statusSelection(String? value) {
-    setState(() {
-      formValues["dropdownValue"] = value;
-    });
-  }
-
-  List<User> userSearchItem = [];
+class _EntranceMonitorPageState extends State<EntranceMonitorPage> {
+  List<Log> userSearchItem = [];
   var formatter = DateFormat('MM/dd/yyyy');
 
   @override
   Widget build(BuildContext context) {
-    Stream<QuerySnapshot>? entriesStream;
-    if (formValues["dropdownValue"] == "Under Quarantine") {
-      entriesStream = context.watch<UserProvider>().underquarantine;
-    } else if (formValues["dropdownValue"] == "Under Monitoring") {
-      entriesStream = context.watch<UserProvider>().undermonitoring;
-    } else {
-      entriesStream = context.watch<UserProvider>().entries;
-    }
+    Stream<QuerySnapshot> logsStream = context.watch<LogProvider>().logs;
 
     return StreamBuilder(
-      stream: entriesStream, //change this based on dropdown value
+      stream: logsStream,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Center(
@@ -69,7 +46,7 @@ class _AdminPageState extends State<AdminPage> {
             children: [
               Container( 
                 margin: const EdgeInsets.only(top:10, bottom:20),
-                child: Text('Users', style: TextStyle(fontSize:50, fontWeight: FontWeight.w500),)
+                child: Text('Logs', style: TextStyle(fontSize:50, fontWeight: FontWeight.w500),)
               ),
 
               // dropdown to see if quarantined or under monitoring
@@ -80,27 +57,9 @@ class _AdminPageState extends State<AdminPage> {
                 Row(
                   children: [
                   Expanded(
-                    flex: 11,
-                    child: DropdownButtonFormField<String>(
-                    value: _dropdownOptions.first,
-                    onChanged: statusSelection,
-                    items: _dropdownOptions.map<DropdownMenuItem<String>>(
-                    (String value) {
-                        return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                        );
-                    },
-                    ).toList(),
-                    //onSaved only in forms
-                    onSaved: (newValue) {
-                      print("Dropdown onSaved method triggered");
-                    },
-                ),),
-
-                  Expanded(
-                    flex: 2,
-                    child: FloatingActionButton.small(// search
+                    child: FloatingActionButton.extended(// search
+                      label: Text('Search student logs'),
+                      icon: const Icon(Icons.search),
                       tooltip: 'Search students',
                       onPressed: () => showSearch(
                         context: context,
@@ -108,24 +67,27 @@ class _AdminPageState extends State<AdminPage> {
                           onQueryUpdate: print,
                           items: userSearchItem,
                           searchLabel: 'Search students',
-                          suggestion: const Center(
-                            child: Text('Filter students by date, course, college or student number'),
-                          ),
+                          suggestion: const 
+                          Padding(
+                            padding: EdgeInsets.all(30),
+                            child: Center(
+                            child: Text('Filter students by name, course, college, student number, status, location, and date'),
+                          )),
                           failure: const Center(
                             child: Text('No person found :('),
                           ),
-                          filter: (entry) => [
-                            entry.college,
-                            entry.course,
-                            entry.studentnum,
-                            formatter.format(DateTime.fromMillisecondsSinceEpoch(entry.date!.seconds * 1000))
+                          filter: (log) => [
+                            log.name,
+                            log.college,
+                            log.course,
+                            log.studentnum,
+                            log.status,
+                            log.location,
+                            formatter.format(DateTime.fromMillisecondsSinceEpoch(log.date!.seconds * 1000))
                           ],
                           sort: (a, b) => a.compareTo(b),
                           builder: (entry) => 
                             ListTile(
-                              onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => UserDetailScreen(user: entry)));
-                              },
                               contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                               tileColor: Colors.white,
@@ -136,33 +98,32 @@ class _AdminPageState extends State<AdminPage> {
                               children: [
                                 Text(entry.studentnum),
                                 Text('${entry.college} - ${entry.course}'),
-                                Text('${formatter.format(DateTime.fromMillisecondsSinceEpoch(entry.date!.seconds * 1000))}')
                               ],
                             ),
                             )
                         ),
                       ),
-                      child: const Icon(Icons.search),
                     ),
                   ),
                 ],)
               ),
+
               Expanded(
                 child: ListView.builder(
                   itemCount: snapshot.data?.docs.length,
                   itemBuilder: ((context, index) {
-                    User entry = User.fromJson(
+                    Log log = Log.fromJson(
                         snapshot.data?.docs[index].data() as Map<String, dynamic>);
-                    entry.id = snapshot.data?.docs[index].id;
-                    userSearchItem.add(entry);
+                    log.id = snapshot.data?.docs[index].id;
+                    userSearchItem.add(log);
                     
                     return Dismissible(
-                      key: Key(entry.id.toString()),
+                      key: Key(log.id.toString()),
                       onDismissed: (direction) {
                 //context.read<SlambookProvider>().deleteEntry(entry.id!);
 
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('${entry.name} dismissed')));
+                        SnackBar(content: Text('${log.name} dismissed')));
                     },
 
                   background: Container(
@@ -176,17 +137,37 @@ class _AdminPageState extends State<AdminPage> {
                     child: ListTile(
                       contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                       onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => UserDetailScreen(user: entry)));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => LogDetailScreen(log: log, type: 'add')));
                       },
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                       tileColor: Colors.white,
                       title: Text(
-                        entry.name, 
+                        log.name, 
                         style: TextStyle(fontSize: 16)
                       ),
-                      trailing: Text(
-                        entry.studentnum, 
-                        style: TextStyle(fontSize: 16)
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container( //edit button
+                            padding: EdgeInsets.all(0),
+                            margin: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                            height:35,
+                            width: 35,
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(5)
+                            ),
+                            child: IconButton(
+                              color: Colors.white,
+                              iconSize: 18,
+                              icon: Icon(Icons.edit_outlined),
+                              onPressed:(){ //widget.log.name
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => LogDetailScreen(log: log, type: 'edit')));
+                              }
+                            ),
+                          
+                          ),
+                        ],
                       ),
                       )
                     ),

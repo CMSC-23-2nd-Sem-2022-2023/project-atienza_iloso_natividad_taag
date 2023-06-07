@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
+import 'package:intl/intl.dart';
 
 class SignUpStepper extends StatefulWidget {
   const SignUpStepper({Key? key}) : super(key: key);
@@ -346,7 +348,10 @@ class _SignUpStepperState extends State<SignUpStepper> {
               courseController.text,
               studentNumController.text,
               illnesses,
-              allergiesController.text);
+              allergiesController.text,
+              "Cleared",
+              "default",
+              Timestamp.now());
 
           if (context.mounted) Navigator.pop(context);
         } else {

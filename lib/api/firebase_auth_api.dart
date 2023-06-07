@@ -61,7 +61,11 @@ class FirebaseAuthAPI {
     String course,
     String studentnum,
     List<String> illnesses,
-    String allergies) async {
+    String allergies,
+    String category,
+    String usertype,
+    Timestamp date
+    ) async {
     try {
       await db.collection("users").add(
         {
@@ -72,7 +76,10 @@ class FirebaseAuthAPI {
         'course': course,
         'studentnum': studentnum,
         'illnesses': illnesses,
-        'allergies': allergies });
+        'allergies': allergies,
+        'category': category,
+        'usertype': usertype,
+        'date': date });
       
       return "Successfully added user!";
     } on FirebaseException catch (e) {
