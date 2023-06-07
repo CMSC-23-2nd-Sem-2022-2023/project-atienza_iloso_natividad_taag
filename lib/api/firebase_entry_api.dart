@@ -7,21 +7,21 @@ class FirebaseEntryAPI {
     return db.collection("entries").orderBy('date', descending: true).snapshots();
   }
 
-  // get all edit requests
-  Stream<QuerySnapshot> getAllEditRequests() {
-    return db.collection("entries").where("toEdit", isEqualTo: true).snapshots();
-  }
-
-  // get all delete requests
-  Stream<QuerySnapshot> getAllDeleteRequests() {
-    return db.collection("entries").where("toDelete", isEqualTo: true).snapshots();
-  }
-
   Future<String> addEntry(Map<String, dynamic> entry) async {
     try {
       await db.collection("entries").add(entry);
 
       return "Successfully added entry!";
+    } on FirebaseException catch (e) {
+      return "Failed with error '${e.code}: ${e.message}";
+    }
+  }
+
+  Future<String> createEditRequest(Map<String, dynamic> entry) async {
+    try {
+      await db.collection("entryEdits").add(entry);
+
+      return "Successfully added entry edit request!";
     } on FirebaseException catch (e) {
       return "Failed with error '${e.code}: ${e.message}";
     }
@@ -40,7 +40,7 @@ class FirebaseEntryAPI {
 
   Future<String> deleteEntry(String? id) async {
     try {
-      await db.collection("entries").doc(id).delete();
+      await db.collection("users").doc(id).delete();
 
       return "Successfully deleted entry!";
     } on FirebaseException catch (e) {

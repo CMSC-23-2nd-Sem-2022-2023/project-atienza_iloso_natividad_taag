@@ -1,14 +1,21 @@
 //  Last Updated: May 25, 2023
-//  Last Updated By: Taag
+//  Last Updated By: Atienza
 //  Add Entry Page
 //    When add entry button is clicked, User is routed here to answer a form.
-//  Missing functionality:
-//    Updating firebase when the add entry button is clicked.
 
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cmsc23_b5l_project/providers/entry_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:cmsc23_b5l_project/models/entry.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/auth_provider.dart';
 
 class AddEntryPage extends StatefulWidget {
-  const AddEntryPage({super.key});
+  final Entry? entry;
+  const AddEntryPage({super.key, this.entry});
   @override
   _AddEntryPageState createState() => _AddEntryPageState();
 }
@@ -27,34 +34,76 @@ class _AddEntryPageState extends State<AddEntryPage> {
     "Diarrhea": false,
     "Loss of taste": false,
     "Loss of smell": false,
-    "None of the above": false,
     "isExposed": false,
   };
 
   @override
   Widget build(BuildContext context) {
-    final addEntryButton = Padding(
-      padding: const EdgeInsets.symmetric(vertical: 9.0),
+    String uid = context.watch<AuthProvider>().getCurrentUser.uid;
+    Random rng = Random(42);
+    int id = Timestamp.now().seconds + rng.nextInt(420);
+
+    final addEntryButton = SizedBox(
+      width: 300.0,
+      height: 40.0,
+      // height: 100.0,
       child: ElevatedButton(
         onPressed: () async {
           // update firebase
+          var tempMap = addEntryMap;
+          tempMap.remove("None of the above");
+          Entry temp = Entry(
+              id: id.toString(),
+              date: Timestamp.now(),
+              illnesses: tempMap,
+              uid: uid);
+
+          context.read<EntryProvider>().addEntry(temp);
+          Navigator.of(context).pop();
         },
-        child: const Text('Add Entry', style: TextStyle(color: Colors.white)),
+        child: const Text('Add Entry',
+            // style: TextStyle(color: Color.fromARGB(255, 75, 75, 75))
+            ),
       ),
     );
 
-    final backButton = Padding(
-      padding: const EdgeInsets.symmetric(vertical: 9.0),
+    final resetButton = SizedBox(
+      width: 300.0,
+      height: 40.0,
+      child: ElevatedButton(
+        // style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(Color.fromARGB(255, 201, 130, 130))),
+        onPressed: () async {
+          setState(() {
+            addEntryMap[addEntryMap.keys.elementAt(10)] = false;
+            for (int i = 0; i < (addEntryMap.length - 2); i++) {
+              addEntryMap[addEntryMap.keys.elementAt(i)] = false;
+            }
+          });
+        },
+        child: const Text('Reset',
+            style: TextStyle(color: Color.fromARGB(255, 53, 0, 0))),
+            // style: TextStyle(color: Color.fromARGB(255, 53, 0, 0))),
+      ),
+    );
+
+    final backButton = SizedBox(
+      width: 300.0,
+      height: 40.0,
       child: ElevatedButton(
         onPressed: () async {
           Navigator.pop(context);
         },
-        child: const Text('Back', style: TextStyle(color: Colors.white)),
+        child: const Text('Back',
+            style: TextStyle(color: Color.fromARGB(255, 75, 75, 75))
+            ),
       ),
     );
 
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: const Text("Add today's entry"),
+      ),
       body: Center(
         child: ListView(
           shrinkWrap: true,
@@ -65,10 +114,13 @@ class _AddEntryPageState extends State<AddEntryPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    "Symptoms",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 25),
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(0, 9, 0, 8),
+                    child: Text(
+                      "Symptoms",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 25),
+                    ),
                   ),
                   const Text(
                     "Please tick all the symptoms that apply",
@@ -173,7 +225,7 @@ class _AddEntryPageState extends State<AddEntryPage> {
                         CheckboxListTile(
                           title: Text(addEntryMap.keys.elementAt(8)),
                           value: addEntryMap[
-                              addEntryMap.keys.elementAt(7)], //gets value
+                              addEntryMap.keys.elementAt(8)], //gets value
                           onChanged: (bool? value) {
                             setState(() {
                               addEntryMap[addEntryMap.keys.elementAt(8)] =
@@ -192,25 +244,12 @@ class _AddEntryPageState extends State<AddEntryPage> {
                             });
                           },
                         ),
-                        CheckboxListTile(
-                          title: Text(addEntryMap.keys.elementAt(10)),
-                          value: addEntryMap[
-                              addEntryMap.keys.elementAt(10)], //gets value
-                          onChanged: (bool? value) {
-                            setState(() {
-                              addEntryMap[addEntryMap.keys.elementAt(10)] =
-                                  value!;
-                              for (int i = 0;
-                                  i < (addEntryMap.length - 2);
-                                  i++) {
-                                addEntryMap[addEntryMap.keys.elementAt(i)] =
-                                    false;
-                              }
-                            });
-                          },
-                        ),
                         const SizedBox(
-                          height: 10,
+                          height: 9,
+                        ),
+                        resetButton,
+                        const SizedBox(
+                          height: 28,
                         ),
                         const Text(
                           "Exposure",
@@ -230,10 +269,16 @@ class _AddEntryPageState extends State<AddEntryPage> {
                     ),
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
                   addEntryButton,
-                  backButton
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  backButton,
+                  const SizedBox(
+                    height: 40,
+                  ),
                 ],
               ),
             ),

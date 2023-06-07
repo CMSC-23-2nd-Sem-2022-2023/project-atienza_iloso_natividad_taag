@@ -4,37 +4,43 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
   String? id;
-  String? userType;
+  String userType;
   String email;
   String name;
   String username;
   String? college;
   String? course;
   String? studentnum;
+  String? employeeno;
+  String? position;
+  String? homeunit;
   List<dynamic>? illnesses;
   String? allergies;
   String? status;
   String? usertype; 
   Timestamp? latestEntryDate;
-  Timestamp? date;
+  Timestamp date;
 
   int compareTo(User other) => name.compareTo(other.name);
 
   User({
     this.id,
     required this.email,
-    this.userType,
+    required this.userType,
     required this.name,
     required this.username,
     this.college,
     this.course,
     this.studentnum,
+    this.employeeno,
+    this.position,
+    this.homeunit,
     this.illnesses,
     this.allergies,
     this.status,
     this.usertype,
     this.latestEntryDate,
-    this.date,
+    required this.date,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -47,6 +53,9 @@ class User {
         college: json['college'],
         course: json['course'],
         studentnum: json['studentnum'],
+        employeeno: json['employeeno'],
+        position: json['position'],
+        homeunit: json['homeunit'],
         illnesses: json['illnesses'],
         allergies: json['allergies'],
         status: json['status'],
@@ -71,6 +80,9 @@ class User {
       'college': user.college,
       'course': user.course,
       'studentnum': user.studentnum,
+      'employeeno': user.employeeno,
+      'position': user.position,
+      'homeunit': user.homeunit,
       'illnesses': user.illnesses,
       'allergies': user.allergies,
       'status': user.status,

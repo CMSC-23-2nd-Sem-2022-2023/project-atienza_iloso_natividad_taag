@@ -1,12 +1,13 @@
+import 'package:cmsc23_b5l_project/providers/entry_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/auth_provider.dart';
-import '../providers/user_provider.dart';
-import '../providers/log_provider.dart';
-import '../providers/entry_provider.dart';
-import 'screens/home_page.dart';
-import 'screens/user_details.dart';
-import '../screens/login.dart';
+import 'package:cmsc23_b5l_project/providers/auth_provider.dart';
+import 'package:cmsc23_b5l_project/providers/user_provider.dart';
+import 'package:cmsc23_b5l_project/providers/log_provider.dart';
+import 'package:cmsc23_b5l_project/screens/home_page.dart';
+import 'package:cmsc23_b5l_project/screens/user_details.dart';
+import 'package:cmsc23_b5l_project/screens/add_entry_page.dart';
+import 'package:cmsc23_b5l_project/screens/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -21,6 +22,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: ((context) => AuthProvider())),
         ChangeNotifierProvider(create: ((context) => UserProvider())),
+        ChangeNotifierProvider(create: ((context) => EntryProvider())),
         ChangeNotifierProvider(create: ((context) => LogProvider())),
         ChangeNotifierProvider(create: ((context) => EntryProvider())),
       ],
@@ -39,12 +41,16 @@ class MyApp extends StatelessWidget {
       title: 'Auth',
       initialRoute: '/',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        // primarySwatch: Colors.blue,
+        // colorSchemeSeed: const Color(0xff6750a4),
+        colorSchemeSeed: Colors.blue,
+        useMaterial3: true,
       ),
       routes: {
         '/': (context) => const HomePage(),
         '/login': (context) => const LoginPage(),
         '/home': (context) => const LoginPage(),
+        '/add_entry': (context) => const AddEntryPage(),
         '/user_details': (context) => const UserDetailsPage(),
       },
     );

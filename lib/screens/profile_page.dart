@@ -12,21 +12,13 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-    //final entryList = Entry.entryList();
-
   @override
   Widget build(BuildContext context) {
-    return       Stack(
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-            child: Column(
-              children: [
-                Text('add page')
-              ]
-            ),
-          ),
-        ]
-      );
+    return Stack(children: [
+      Container(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        child: Column(children: [Text('add page')]),
+      ),
+    ]);
   }
 }

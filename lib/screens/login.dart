@@ -67,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                 passwordController.text.trim(),
               );
         },
-        child: const Text('Log In', style: TextStyle(color: Colors.white)),
+        child: const Text('Log In'),
       ),
     );
 
@@ -83,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
           );
         },
         child: const Text('Sign Up as User',
-            style: TextStyle(color: Colors.white)),
+            style: TextStyle(color: Color.fromARGB(255, 0, 28, 53))),
       ),
     );
 
@@ -99,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
           );
         },
         child: const Text('Sign Up as Admin/Entrance Monitor',
-            style: TextStyle(color: Colors.white)),
+            style: TextStyle(color: Color.fromARGB(255, 0, 28, 53))),
       ),
     );
 
