@@ -17,6 +17,16 @@ class FirebaseEntryAPI {
     }
   }
 
+  Future<String> createEditRequest(Map<String, dynamic> entry) async {
+    try {
+      await db.collection("entryEdits").add(entry);
+
+      return "Successfully added entry edit request!";
+    } on FirebaseException catch (e) {
+      return "Failed with error '${e.code}: ${e.message}";
+    }
+  }
+
   Future<String> editEntry(String id, Map<String, dynamic> entry) async {
     try {
       await db.collection("friendList").doc(id).update(entry);

@@ -134,7 +134,7 @@ class _AdminPageState extends State<AdminPage> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(entry.studentnum),
+                                Text(entry.studentnum as String),
                                 Text('${entry.college} - ${entry.course}'),
                                 Text('${formatter.format(DateTime.fromMillisecondsSinceEpoch(entry.date!.seconds * 1000))}')
                               ],
@@ -185,7 +185,7 @@ class _AdminPageState extends State<AdminPage> {
                         style: TextStyle(fontSize: 16)
                       ),
                       trailing: Text(
-                        entry.studentnum, 
+                        entry.studentnum as String, 
                         style: TextStyle(fontSize: 16)
                       ),
                       )

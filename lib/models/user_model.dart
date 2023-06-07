@@ -11,6 +11,9 @@ class User {
   String? college;
   String? course;
   String? studentnum;
+  String? employeeno;
+  String? position;
+  String? homeunit;
   List<dynamic>? illnesses;
   String? allergies;
   String? status;
@@ -29,6 +32,9 @@ class User {
     this.college,
     this.course,
     this.studentnum,
+    this.employeeno,
+    this.position,
+    this.homeunit,
     this.illnesses,
     this.allergies,
     this.status,
@@ -47,6 +53,9 @@ class User {
         college: json['college'],
         course: json['course'],
         studentnum: json['studentnum'],
+        employeeno: json['employeeno'],
+        position: json['position'],
+        homeunit: json['homeunit'],
         illnesses: json['illnesses'],
         allergies: json['allergies'],
         status: json['status'],
@@ -71,6 +80,9 @@ class User {
       'college': user.college,
       'course': user.course,
       'studentnum': user.studentnum,
+      'employeeno': user.employeeno,
+      'position': user.position,
+      'homeunit': user.homeunit,
       'illnesses': user.illnesses,
       'allergies': user.allergies,
       'status': user.status,

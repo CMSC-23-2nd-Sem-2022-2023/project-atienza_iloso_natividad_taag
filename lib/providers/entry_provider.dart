@@ -31,6 +31,13 @@ class EntryProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void createEditRequest(EntryEditRequest entry) async{
+    String message = await firebaseService.createEditRequest(entry.toJson(entry));
+    // ignore: avoid_print
+    print(message);
+    notifyListeners();
+  }
+
   // edit entry in firebase
   void updateEditRequest(String id, bool toEdit) async {
     String message = await firebaseService.updateEditRequest(id, toEdit);
