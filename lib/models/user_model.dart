@@ -13,8 +13,12 @@ class User {
   String? studentnum;
   List<dynamic>? illnesses;
   String? allergies;
+  String? status;
+  String? usertype; 
   Timestamp? latestEntryDate;
   Timestamp date;
+
+  int compareTo(User other) => name.compareTo(other.name);
 
   User({
     this.id,
@@ -27,6 +31,8 @@ class User {
     this.studentnum,
     this.illnesses,
     this.allergies,
+    this.status,
+    this.usertype,
     this.latestEntryDate,
     required this.date,
   });
@@ -43,6 +49,8 @@ class User {
         studentnum: json['studentnum'],
         illnesses: json['illnesses'],
         allergies: json['allergies'],
+        status: json['status'],
+        usertype: json['usertype'],
         latestEntryDate: json['latestEntryDate'],
         date: json['date'],
         );
@@ -65,9 +73,10 @@ class User {
       'studentnum': user.studentnum,
       'illnesses': user.illnesses,
       'allergies': user.allergies,
+      'status': user.status,
+      'usertype': user.usertype,
       'latestEntryDate': user.latestEntryDate,
       'date': user.date,
     };
   }
-
 }

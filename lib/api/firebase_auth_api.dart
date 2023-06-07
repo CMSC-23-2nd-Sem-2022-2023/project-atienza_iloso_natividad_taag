@@ -63,14 +63,18 @@ class FirebaseAuthAPI {
   }
 
   Future<String> addUser(
-      String email,
-      String name,
-      String username,
-      String college,
-      String course,
-      String studentnum,
-      List<String> illnesses,
-      String allergies) async {
+    String email,
+    String name,
+    String username,
+    String college,
+    String course,
+    String studentnum,
+    List<String> illnesses,
+    String allergies,
+    String category,
+    String usertype,
+    String date
+    ) async {
     try {
       await db.collection("users").add({
         'email': email,
@@ -80,9 +84,11 @@ class FirebaseAuthAPI {
         'course': course,
         'studentnum': studentnum,
         'illnesses': illnesses,
-        'allergies': allergies
-      });
-
+        'allergies': allergies,
+        'category': category,
+        'usertype': usertype,
+        'date': date });
+      
       return "Successfully added user!";
     } on FirebaseException catch (e) {
       return "Failed with error '${e.code}: ${e.message}";
