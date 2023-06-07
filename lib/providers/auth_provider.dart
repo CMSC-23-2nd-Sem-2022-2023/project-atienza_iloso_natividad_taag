@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../api/firebase_auth_api.dart';
@@ -39,7 +40,7 @@ class AuthProvider with ChangeNotifier {
       String allergies,
       String status,
       String usertype,
-      String date) async {
+      Timestamp date) async {
     await authService.addUser(
         email, name, username, college, course, studentnum, illnesses, allergies, status, usertype, date);
     //use the function in firebase_auth_api

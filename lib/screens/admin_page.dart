@@ -2,6 +2,7 @@ import 'package:cmsc23_b5l_project/models/user_model.dart';
 import 'package:cmsc23_b5l_project/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import "package:provider/provider.dart";
 import 'user_detail_page.dart';
 import 'package:search_page/search_page.dart';
@@ -32,6 +33,7 @@ class _AdminPageState extends State<AdminPage> {
   }
 
   List<User> userSearchItem = [];
+  var formatter = DateFormat('MM/dd/yyyy');
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +118,7 @@ class _AdminPageState extends State<AdminPage> {
                             entry.college,
                             entry.course,
                             entry.studentnum,
-                            entry.date
+                            formatter.format(DateTime.fromMillisecondsSinceEpoch(entry.date!.seconds * 1000))
                           ],
                           sort: (a, b) => a.compareTo(b),
                           builder: (entry) => 
@@ -134,7 +136,7 @@ class _AdminPageState extends State<AdminPage> {
                               children: [
                                 Text(entry.studentnum),
                                 Text('${entry.college} - ${entry.course}'),
-                                Text('${entry.date}')
+                                Text('${formatter.format(DateTime.fromMillisecondsSinceEpoch(entry.date!.seconds * 1000))}')
                               ],
                             ),
                             )

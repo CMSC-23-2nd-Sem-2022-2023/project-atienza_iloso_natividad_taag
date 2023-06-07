@@ -2,6 +2,7 @@ import 'package:cmsc23_b5l_project/models/log_model.dart';
 import 'package:cmsc23_b5l_project/providers/log_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import "package:provider/provider.dart";
 import 'log_detail_page.dart';
 import 'package:search_page/search_page.dart';
@@ -16,6 +17,7 @@ class EntranceMonitorPage extends StatefulWidget {
 
 class _EntranceMonitorPageState extends State<EntranceMonitorPage> {
   List<Log> userSearchItem = [];
+  var formatter = DateFormat('MM/dd/yyyy');
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +83,7 @@ class _EntranceMonitorPageState extends State<EntranceMonitorPage> {
                             log.studentnum,
                             log.status,
                             log.location,
-                            log.date
+                            formatter.format(DateTime.fromMillisecondsSinceEpoch(log.date!.seconds * 1000))
                           ],
                           sort: (a, b) => a.compareTo(b),
                           builder: (entry) => 
