@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../models/log_model.dart';
 import "package:provider/provider.dart";
 import '../providers/log_provider.dart';
@@ -119,7 +120,7 @@ class LogDetailScreen extends StatelessWidget {
               child: Text("Date", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
             ),
             Expanded(flex: 4,
-              child: Text("${log.date}", style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic),),
+              child: Text("${DateFormat.yMMMd().add_jm().format(log.date!.toDate()).toString()}", style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic),),
             ),
           ],),
 

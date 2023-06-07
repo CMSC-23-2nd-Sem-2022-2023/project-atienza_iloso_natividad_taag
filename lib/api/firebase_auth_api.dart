@@ -64,7 +64,7 @@ class FirebaseAuthAPI {
     String allergies,
     String category,
     String usertype,
-    String date
+    Timestamp date
     ) async {
     try {
       await db.collection("users").add(

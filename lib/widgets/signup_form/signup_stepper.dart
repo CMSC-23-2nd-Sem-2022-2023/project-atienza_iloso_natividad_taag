@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
@@ -353,7 +354,7 @@ class _SignUpStepperState extends State<SignUpStepper> {
               allergiesController.text,
               "Cleared",
               "default",
-              formattedDate);
+              Timestamp.now());
 
           if (context.mounted) Navigator.pop(context);
         } else {

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Log {
   String? id;
@@ -11,7 +12,7 @@ class Log {
   String studentnum;
   String? status;
   String? location; 
-  String? date;
+  Timestamp? date;
 
   int compareTo(Log other) => name.compareTo(other.name);
 

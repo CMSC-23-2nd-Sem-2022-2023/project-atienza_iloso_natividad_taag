@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
   String? id;
@@ -13,7 +14,7 @@ class User {
   String? allergies;
   String? status;
   String? usertype; 
-  String? date;
+  Timestamp? date;
 
   int compareTo(User other) => name.compareTo(other.name);
 
